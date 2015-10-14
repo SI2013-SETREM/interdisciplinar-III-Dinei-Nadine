@@ -33,7 +33,8 @@ public class FornecedorController {
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public WsResponse<Fornecedor> insert(@RequestBody Fornecedor fornecedor) {
         repo.insert(fornecedor);
-        return new WsResponse<>(fornecedor);
+//        return fornecedor;
+        return new WsResponse<Fornecedor>(fornecedor);
     }
     
 }
