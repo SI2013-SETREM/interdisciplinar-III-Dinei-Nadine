@@ -13,7 +13,7 @@ public class ThymeleafConfig {
     public ServletContextTemplateResolver templateResolver() {
         ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
         resolver.setCharacterEncoding("UTF-8");
-        resolver.setTemplateMode("HTML5");
+        resolver.setTemplateMode("LEGACYHTML5");
         resolver.setPrefix("/templates/");
         resolver.setSuffix(".html");
         resolver.setOrder(1);
