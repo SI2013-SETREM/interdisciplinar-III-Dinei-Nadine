@@ -5,9 +5,9 @@ import org.springframework.http.HttpStatus;
 
 public class WsResponse<T> {
     
-    private T document;
     private HttpStatus httpStatus;
     private String message;
+    private T document;
     
     public WsResponse(T document) {
         this.document = document;
@@ -27,6 +27,29 @@ public class WsResponse<T> {
         this.httpStatus = httpStatus;
         this.message = message;
     }
-    
+
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
+
+    public void setHttpStatus(HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public T getDocument() {
+        return document;
+    }
+
+    public void setDocument(T document) {
+        this.document = document;
+    }
     
 }
