@@ -1,31 +1,32 @@
 
 package com.br.squemasports.general;
 
+import com.br.squemasports.model.Documento;
 import org.springframework.http.HttpStatus;
 
-public class WsResponse<T> {
+public class WsResponse<T extends Documento> {
     
     private HttpStatus httpStatus;
-    private String message;
-    private T document;
+    private String mensagem;
+    private T documento;
     
     public WsResponse(T document) {
-        this.document = document;
+        this.documento = document;
         this.httpStatus = HttpStatus.OK;
     }
-    public WsResponse(T document, String message) {
-        this.document = document;
+    public WsResponse(T document, String mensagem) {
+        this.documento = document;
         this.httpStatus = HttpStatus.BAD_REQUEST;
-        this.message = message;
+        this.mensagem = mensagem;
     }
-    public WsResponse(T document, HttpStatus httpStatus) {
-        this.document = document;
+    public WsResponse(T documento, HttpStatus httpStatus) {
+        this.documento = documento;
         this.httpStatus = httpStatus;
     }
-    public WsResponse(T document, HttpStatus httpStatus, String message) {
-        this.document = document;
+    public WsResponse(T documento, HttpStatus httpStatus, String mensagem) {
+        this.documento = documento;
         this.httpStatus = httpStatus;
-        this.message = message;
+        this.mensagem = mensagem;
     }
 
     public HttpStatus getHttpStatus() {
@@ -36,20 +37,20 @@ public class WsResponse<T> {
         this.httpStatus = httpStatus;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMensagem() {
+        return mensagem;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
     }
 
-    public T getDocument() {
-        return document;
+    public T getDocumento() {
+        return documento;
     }
 
-    public void setDocument(T document) {
-        this.document = document;
+    public void setDocumento(T documento) {
+        this.documento = documento;
     }
     
 }

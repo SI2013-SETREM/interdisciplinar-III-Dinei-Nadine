@@ -4,7 +4,6 @@ package com.br.squemasports.controller.ws;
 import com.br.squemasports.dao.FornecedorRepository;
 import com.br.squemasports.general.WsResponse;
 import com.br.squemasports.model.Fornecedor;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/ws/fornecedor")
-public class FornecedorController {
+@RequestMapping(Fornecedor.URL_WS)
+public class WsFornecedorController {
     
     @Autowired
     private FornecedorRepository repo;
@@ -35,8 +34,7 @@ public class FornecedorController {
     @ResponseBody
     public WsResponse<Fornecedor> insert(@RequestBody Fornecedor fornecedor) {
         repo.insert(fornecedor);
-//        return fornecedor;
-        return new WsResponse<Fornecedor>(fornecedor);
+        return new WsResponse<>(fornecedor);
     }
     
 }

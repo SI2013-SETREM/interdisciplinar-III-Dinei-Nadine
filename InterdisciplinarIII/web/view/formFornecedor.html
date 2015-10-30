@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head></head>
+    <body>
+        <div th:fragment="content">
+            <div class="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Fornecedor</h2>
+                        <form method="POST" class="form-horizontal" th:object="${documento}">
+                            <div class="form-group">
+                                <label for="txtNome" class="control-label col-sm-1">Nome:*</label>
+                                <div class="col-md-6 col-sm-12">
+                                    <input name="nome" th:value="*{nome}" id="txtNome" class="form-control" type="text" autofocus="" required="" placeholder="Nome do fornecedor" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtEndereco" class="control-label col-sm-1">Endereço:</label>
+                                <div class="col-md-6 col-sm-12">
+                                    <input name="endereco" th:value="*{endereco}" id="txtEndereco" class="form-control" type="text" placeholder="Endereço do fornecedor" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
+                                    <a class="btn btn-default" th:href="@{/fornecedor/}">Cancelar</a>
+                                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+    </body>
+</html>

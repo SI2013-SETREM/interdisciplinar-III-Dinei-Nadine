@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title th:text="(${titulo} ? ${titulo} + ' - ' : '') + 'Squema Sports'"></title>
+        <link th:href="@{/assets/css/bootstrap.min.css}" type="text/css" rel="stylesheet" />
+        <link th:href="@{/assets/css/font-awesome.min.css}" type="text/css" rel="stylesheet" />
+        <link th:href="@{/assets/css/custom.css}" type="text/css" rel="stylesheet" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-brand" th:href="@{/}">Custos</a> 
+                </div>
+            </nav>
+            <div id="page-wrapper-nomenu" th:include="${view} :: content">
+                <!-- View Page -->
+            </div>
+        </div>
+        <script th:src="@{/assets/js/jquery-2.1.4.min.js}"></script>
+        <script th:src="@{/assets/js/bootstrap.min.js}"></script>
+        <script th:src="@{/assets/js/custom.js}"></script>
+    </body>
+</html>

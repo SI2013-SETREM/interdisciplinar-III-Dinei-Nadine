@@ -21,4 +21,13 @@
             30
         </session-timeout>
     </session-config>
+    
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/erro</location>
+    </error-page>
 </web-app>
