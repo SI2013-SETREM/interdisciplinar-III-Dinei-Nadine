@@ -69,18 +69,25 @@
 .form-group-lg .form-control-icon > input {
   padding-left: 35px;
 }
-.dataTable .col-button-header {
-  max-width: 15px;
+.dataTables_wrapper div.dataTables_paginate {
+  padding: 0;
 }
-.dataTable div.dataTables_paginate ul.pagination {
+.dataTables_wrapper div.dataTables_paginate .paginate_button {
+  padding: 0;
+}
+.dataTables_wrapper div.dataTables_paginate .paginate_button:hover {
+  border: 1px solid transparent;
+  background: none;
+}
+.dataTables_wrapper div.dataTables_paginate ul.pagination {
   margin: 0;
 }
-.dataTable div.dataTables_paginate ul.pagination > .disabled > a,
-.dataTable div.dataTables_paginate ul.pagination > .disabled > a:focus,
-.dataTable div.dataTables_paginate ul.pagination > .disabled > a:hover,
-.dataTable div.dataTables_paginate ul.pagination > .disabled > span,
-.dataTable div.dataTables_paginate ul.pagination > .disabled > span:focus,
-.dataTable div.dataTables_paginate ul.pagination > .disabled > span:hover {
+.dataTables_wrapper div.dataTables_paginate ul.pagination > .disabled > a,
+.dataTables_wrapper div.dataTables_paginate ul.pagination > .disabled > a:focus,
+.dataTables_wrapper div.dataTables_paginate ul.pagination > .disabled > a:hover,
+.dataTables_wrapper div.dataTables_paginate ul.pagination > .disabled > span,
+.dataTables_wrapper div.dataTables_paginate ul.pagination > .disabled > span:focus,
+.dataTables_wrapper div.dataTables_paginate ul.pagination > .disabled > span:hover {
   color: #bebebe;
 }
 body {
@@ -104,6 +111,7 @@ body {
   margin: 10px 20px 10px 0px;
   background-color: #fff!important;
   padding: 10px;
+  min-height: 600px;
 }
 .text-center {
   text-align: center;

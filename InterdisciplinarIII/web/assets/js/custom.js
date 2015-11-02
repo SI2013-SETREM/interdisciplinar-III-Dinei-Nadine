@@ -28,7 +28,7 @@ if (typeof($.fn.dataTable) !== 'undefined') {
         "renderer": "bootstrap",
         "pagingType": "full_numbers",
         "columnDefs": [ {
-            "targets": [1, 2],
+            "targets": [-1, -2],
             "orderable": false,
             "searchable": false
         } ],
@@ -43,13 +43,39 @@ var WsRequestOperacao = {
     DELETE: 'DELETE',
 };
 
+function addItemData($before, placeholder, nameId, type) {
+    if (!type) {
+        type = 'text';
+    }
+    var n = $before.parent().children('.item-data').length;
+    $('<div/>', {
+        'class': 'list-group-item item-data',
+        html: $('<input/>', {
+            'class': 'form-control',
+            'type': type,
+            'placeholder': placeholder,
+            'name': nameId + '[' + n + ']',
+//            'name': nameId + '[]',
+            'id': nameId + n,
+        }),
+    }).insertBefore($before);
+    console.log(n);
+}
+
 $(document).ready(function () {
 
     $('.alert-dismissable .close').click(function() {
         $(this).parent().fadeOut(200);
         return false;
     });
-
+    
+    $('#addEmailFornecedor').click(function() {
+        addItemData($(this), 'Email', 'emails', 'email');
+    });
+    $('#addTelefoneFornecedor').click(function() {
+        addItemData($(this), 'Telefone', 'telefones', 'tel');
+    });
+    
     $('.ajaxDelete[data-id]').click(function() {
         if (URL_WS) {
             var $this = $(this);
@@ -71,14 +97,8 @@ $(document).ready(function () {
                         if (id) {
                             console.log('ID: ', id);
                             $.ajax({
-                                url: URL_WS,
+                                url: URL_MVC + id + "/delete",
                                 type: 'post',
-                                data: {
-                                    operacao: WsRequestOperacao.DELETE,
-                                    documento: {
-                                        'id': $this.data('id'),
-                                    },
-                                },
                                 success: function() {
                                     
                                 }

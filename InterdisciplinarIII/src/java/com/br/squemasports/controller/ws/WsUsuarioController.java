@@ -2,10 +2,8 @@
 package com.br.squemasports.controller.ws;
 
 import com.br.squemasports.dao.UsuarioRepository;
-import com.br.squemasports.general.JView;
 import com.br.squemasports.general.WsResponse;
 import com.br.squemasports.model.Usuario;
-import com.fasterxml.jackson.annotation.JsonView;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

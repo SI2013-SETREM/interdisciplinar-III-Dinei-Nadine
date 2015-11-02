@@ -1,10 +1,7 @@
 
 package com.br.squemasports.model;
 
-import com.br.squemasports.general.JView;
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
