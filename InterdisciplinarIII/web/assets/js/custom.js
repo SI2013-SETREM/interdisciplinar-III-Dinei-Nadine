@@ -76,47 +76,47 @@ $(document).ready(function () {
         addItemData($(this), 'Telefone', 'telefones', 'tel');
     });
     
-    $('.ajaxDelete[data-id]').click(function() {
-        if (URL_WS) {
-            var $this = $(this);
-            if (!$this.data('clicked')) {
-                var id = $this.data('id'),
-                    $fitLoading = $(this).hasClass('ajaxLoading') ? $this : $(this).parents('.ajaxLoading'),
-                    $loading = $('<div/>', {
-                        'class': 'carregando',
-                        html: $('<i/>', {
-                            'class': 'fa fa-spinner fa-spin fa-2x',
-                        }),
-                    });
-                try {
-                    $this.data('clicked', true);
-                    if (confirm("Deseja realmente excluir este registro?")) {
-                        if ($fitLoading.length) {
-                            $loading.appendTo($this);
-                        }
-                        if (id) {
-                            console.log('ID: ', id);
-                            $.ajax({
-                                url: URL_MVC + id + "/delete",
-                                type: 'post',
-                                success: function() {
-                                    
-                                }
-                            });
-                        }
-                    }
-                } catch (Exception) {
-
-                } finally {
-                    $this.data('clicked', false);
-                    if ($loading && $loading.length) {
-                        $loading.remove();
-                    }
-                }
-            }
-            return false;
-        }
-    });
+//    $('.ajaxDelete[data-id]').click(function() {
+//        if (URL_WS) {
+//            var $this = $(this);
+//            if (!$this.data('clicked')) {
+//                var id = $this.data('id'),
+//                    $fitLoading = $(this).hasClass('ajaxLoading') ? $this : $(this).parents('.ajaxLoading'),
+//                    $loading = $('<div/>', {
+//                        'class': 'carregando',
+//                        html: $('<i/>', {
+//                            'class': 'fa fa-spinner fa-spin fa-2x',
+//                        }),
+//                    });
+//                try {
+//                    $this.data('clicked', true);
+//                    if (confirm("Deseja realmente excluir este registro?")) {
+//                        if ($fitLoading.length) {
+//                            $loading.appendTo($this);
+//                        }
+//                        if (id) {
+//                            console.log('ID: ', id);
+//                            $.ajax({
+//                                url: URL_MVC + id + "/delete",
+//                                type: 'post',
+//                                success: function() {
+//                                    
+//                                }
+//                            });
+//                        }
+//                    }
+//                } catch (Exception) {
+//
+//                } finally {
+//                    $this.data('clicked', false);
+//                    if ($loading && $loading.length) {
+//                        $loading.remove();
+//                    }
+//                }
+//            }
+//            return false;
+//        }
+//    });
     
     // Fallback para navegadores que não suportam HTML5
     //Documentação: http://xdsoft.net/jqplugins/datetimepicker/

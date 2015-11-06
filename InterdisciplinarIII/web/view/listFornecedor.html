@@ -20,7 +20,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="documento : ${lista}" th:object="${documento}" class="ajaxLoading">
+                                <tr th:each="documento : ${lista}" th:object="${documento}">
                                     <td th:text="*{nome}"></td>
                                     <td th:utext="*{getEmailsList(true)}"></td>
                                     <td th:utext="*{getTelefonesList(true)}"></td>
@@ -31,7 +31,7 @@
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <a href="javascript:void(0);" th:attr="data-id=*{id}" class="ajaxDelete">
+                                        <a th:href="@{${URL_MVC} + '/' + *{id} + '/delete'}" onclick="return confirm('Deseja realmente excluir este registro?')">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>

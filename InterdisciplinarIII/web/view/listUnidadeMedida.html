@@ -12,7 +12,7 @@
                             <thead>
                                 <tr>
                                     <th>Nome</th>
-                                    <th>Status</th>
+                                    <th>Sigla</th>
                                     <th class="col-button-header">Editar</th>
                                     <th class="col-button-header">Excluir</th>
                                 </tr>
@@ -20,7 +20,7 @@
                             <tbody>
                                 <tr th:each="documento : ${lista}" th:object="${documento}">
                                     <td th:text="*{nome}"></td>
-                                    <td th:text="*{status ? 'Ativo' : 'Inativo'}"></td>
+                                    <td th:text="*{sigla}"></td>
                                     <td class="text-center">
                                         <a th:href="@{${URL_MVC} + '/' + *{id}}">
                                             <i class="fa fa-pencil"></i>
