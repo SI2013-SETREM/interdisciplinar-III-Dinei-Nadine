@@ -26,17 +26,11 @@
                                     <input th:field="*{login}" class="form-control" type="text" required="" placeholder="Login do usuário" />
                                 </div>
                             </div>
-                            <div th:if="*{id} != null and *{id} != ''">
+                            <div th:if="*{id} == null or *{id} == ''">
                                 <div class="form-group">
                                     <label for="senha" class="control-label col-md-2 col-sm-3">Senha:*</label>
                                     <div class="col-md-6 col-sm-9">
                                         <input th:field="*{senha}" class="form-control" type="password" required="" placeholder="Senha" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="confirmaSenha" class="control-label col-md-2 col-sm-3">Confirmação de senha:*</label>
-                                    <div class="col-md-6 col-sm-9">
-                                        <input th:field="*{confirmaSenha}" class="form-control" type="password" required="" placeholder="Confirmação da senha" />
                                     </div>
                                 </div>
                             </div>

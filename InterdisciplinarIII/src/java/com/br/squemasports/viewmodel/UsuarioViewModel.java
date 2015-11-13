@@ -60,9 +60,20 @@ public class UsuarioViewModel {
         this.status = status;
     }
     
-    public void fill(Usuario usuario) {
+    public MensagemMVC fill(Usuario usuario) {
+        MensagemMVC r = new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "");
+        
         usuario.setNome(nome);
         usuario.setStatus(status);
+        if (senha != null && confirmaSenha != null) {
+            if (!senha.equals(confirmaSenha)) {
+                r.setGravidade(MensagemMVC.GRAVIDADE.ERRO);
+                r.setMsg("As senhas não conferem");
+            } else {
+                usuario.setSenha(senha);
+            }
+        }
+        return r;
     }
     
 }

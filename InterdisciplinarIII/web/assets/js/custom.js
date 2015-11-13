@@ -102,7 +102,8 @@ $(document).ready(function () {
     $('#addTelefoneFornecedor').click(function() {
         addItemData($(this), 'Telefone do fornecedor', 'telefones', 'tel');
     });
-    $('.delTelefoneFornecedor, .delEmailFornecedor').click(function() {
+    // Para aplicar a elementos adicionados dinamicamente também
+    $(document).on('click', '.delTelefoneFornecedor, .delEmailFornecedor', function () {
         delItemData($(this));
     });
     

@@ -41,6 +41,7 @@ public class UsuarioController {
         } else {
             Usuario u = repo.findOne(id);
             if (u != null) {
+                u.setSenha(null);
                 mv.addObject("documento", u);
                 mv.addObject("titulo", "Usuário " + u.getNome());
             } else {
@@ -52,22 +53,29 @@ public class UsuarioController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public String post(@PathVariable("id") String id, @ModelAttribute UsuarioViewModel uvm, final RedirectAttributes redirectAttributes) {
+        String redirect = Usuario.URL_MVC;
+        MensagemMVC msg;
         try {
             Usuario usuario = new Usuario();
             if (id != null && ObjectId.isValid(id)) {
                 usuario = repo.findOne(id);
             }
-            uvm.fill(usuario);
-            if (id == null || "novo".equals(id)) {
-                repo.insert(usuario);
+            msg = uvm.fill(usuario);
+            if (msg.getGravidade() == MensagemMVC.GRAVIDADE.SUCESSO) {
+                if (id == null || "novo".equals(id)) {
+                    repo.insert(usuario);
+                } else {
+                    repo.save(usuario);
+                }
+                msg = new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "Registro salvo");
             } else {
-                repo.save(usuario);
+                redirect += "/" + id;
             }
-            redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "Registro salvo"));
         } catch (Exception ex) {
-            redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.ERRO, "Falha ao salvar o registro: " + ex.getMessage()));
+            msg = new MensagemMVC(MensagemMVC.GRAVIDADE.ERRO, "Falha ao salvar o registro: " + ex.getMessage());
         }
-        return "redirect:" + Usuario.URL_MVC;
+        redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, msg);
+        return "redirect:" + redirect;
     }
     
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)

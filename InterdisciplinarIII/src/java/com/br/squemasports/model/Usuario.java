@@ -1,7 +1,9 @@
 
 package com.br.squemasports.model;
 
+import com.br.squemasports.general.Util;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -48,15 +50,17 @@ public class Usuario implements Documento {
     }
 
     public void setSenha(String senha) {
-        this.senha = senha;
+        if (senha == null) {
+            this.sal = null;
+            this.senha = null;
+        } else {
+            this.sal = Util.md5(ObjectId.get().toHexString());
+            this.senha = Util.md5(this.getSal() + senha);
+        }
     }
 
     public String getSal() {
         return sal;
-    }
-
-    public void setSal(String sal) {
-        this.sal = sal;
     }
 
     public boolean isStatus() {
