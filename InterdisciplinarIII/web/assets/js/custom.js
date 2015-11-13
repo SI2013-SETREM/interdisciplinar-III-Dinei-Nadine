@@ -48,18 +48,45 @@ function addItemData($before, placeholder, nameId, type) {
         type = 'text';
     }
     var n = $before.parent().children('.item-data').length;
+    if (n) {
+        var $lastItemData = $($before.parent().children('.item-data').get(n-1));
+        if ($lastItemData.length) {
+            n = $lastItemData.data('n')+1;
+        }
+    }
+    var $input;
     $('<div/>', {
         'class': 'list-group-item item-data',
-        html: $('<input/>', {
-            'class': 'form-control',
-            'type': type,
-            'placeholder': placeholder,
-            'name': nameId + '[' + n + ']',
-//            'name': nameId + '[]',
-            'id': nameId + n,
+        html: $('<div/>', {
+            'class': 'row',
+            html: [
+                $('<div/>', {
+                    'class': 'col-md-11 col-sm-11 col-xs-11',
+                    html: $input = $('<input/>', {
+                        'class': 'form-control',
+                        'type': type,
+                        'placeholder': placeholder,
+                        'name': nameId + '[' + n + ']',
+                        'id': nameId + n,
+                    }),
+                }),
+                $('<div/>', {
+                    'class': 'col-md-1 col-sm-1 col-xs-1',
+                    html: $('<a/>', {
+                        'href': 'javascript:void(0);',
+                        'class': 'fa fa-form-control fa-trash delTelefoneFornecedor',
+                    })
+                }),
+            ],
         }),
-    }).insertBefore($before);
-    console.log(n);
+    }).data('n', n).insertBefore($before);
+    $input.focus();
+}
+
+function delItemData($btnDel) {
+    if ($btnDel.length) {
+        $btnDel.parents('.item-data').remove();
+    }
 }
 
 $(document).ready(function () {
@@ -70,10 +97,13 @@ $(document).ready(function () {
     });
     
     $('#addEmailFornecedor').click(function() {
-        addItemData($(this), 'Email', 'emails', 'email');
+        addItemData($(this), 'Email do fornecedor', 'emails', 'email');
     });
     $('#addTelefoneFornecedor').click(function() {
-        addItemData($(this), 'Telefone', 'telefones', 'tel');
+        addItemData($(this), 'Telefone do fornecedor', 'telefones', 'tel');
+    });
+    $('.delTelefoneFornecedor, .delEmailFornecedor').click(function() {
+        delItemData($(this));
     });
     
 //    $('.ajaxDelete[data-id]').click(function() {

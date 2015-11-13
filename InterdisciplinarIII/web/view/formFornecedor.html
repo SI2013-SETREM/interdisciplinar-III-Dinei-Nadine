@@ -22,8 +22,15 @@
                             </div>
                             <div class="list-group col-md-6">
                                 <div class="list-group-item"><b>Emails:</b></div>
-                                <div class="list-group-item item-data" th:each="email,emailStat : *{emails}">
-                                    <input th:field="*{emails[__${emailStat.index}__]}" class="form-control" type="email" placeholder="Email do fornecedor" />
+                                <div class="list-group-item item-data" th:each="email,emailStat : *{emails}" th:attr="data-n=${emailStat.index}">
+                                    <div class="row">
+                                        <div class="col-md-11 col-sm-11 col-xs-11">
+                                            <input th:field="*{emails[__${emailStat.index}__]}" class="form-control" type="email" placeholder="Email do fornecedor" />
+                                        </div>
+                                        <div class="col-md-1 col-sm-1 col-xs-1">
+                                            <a href="javascript:void(0);" class="fa fa-form-control fa-trash delEmailFornecedor"></a>
+                                        </div>
+                                    </div>
                                 </div>
                                 <a href="javascript:void(0);" id="addEmailFornecedor" class="list-group-item list-group-item-success text-center">
                                     Adicionar email
@@ -31,8 +38,15 @@
                             </div>
                             <div class="list-group col-md-6">
                                 <div class="list-group-item"><b>Telefones:</b></div>
-                                <div class="list-group-item item-data" th:each="tel,telStat : *{telefones}">
-                                    <input th:field="*{telefones[__${telStat.index}__]}" class="form-control" type="tel" placeholder="Telefone do fornecedor" />
+                                <div class="list-group-item item-data" th:each="tel,telStat : *{telefones}" th:attr="data-n=${telStat.index}">
+                                    <div class="row">
+                                        <div class="col-md-11 col-sm-11 col-xs-11">
+                                            <input th:field="*{telefones[__${telStat.index}__]}" class="form-control" type="tel" placeholder="Telefone do fornecedor" />
+                                        </div>
+                                        <div class="col-md-1 col-sm-1 col-xs-1">
+                                            <a href="javascript:void(0);" class="fa fa-form-control fa-trash delTelefoneFornecedor"></a>
+                                        </div>
+                                    </div>
                                 </div>
                                 <a href="javascript:void(0);" id="addTelefoneFornecedor" class="list-group-item list-group-item-success text-center">
                                     Adicionar telefone

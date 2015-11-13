@@ -3,6 +3,7 @@ package com.br.squemasports.viewmodel;
 
 import com.br.squemasports.model.Fornecedor;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FornecedorViewModel {
     
@@ -56,12 +57,18 @@ public class FornecedorViewModel {
         fornecedor.setNome(nome);
         fornecedor.setEndereco(endereco);
         if (emails != null) {
-            fornecedor.setEmails(emails.toArray(new String[0]));
+            fornecedor.setEmails(emails.stream()
+                    .filter(x -> (x != null && !"".equals(x)))
+                    .collect(Collectors.toList())
+                    .toArray(new String[0]));
         } else {
             fornecedor.setEmails(null);
         }
         if (telefones != null) {
-            fornecedor.setTelefones(telefones.toArray(new String[0]));
+            fornecedor.setTelefones(telefones.stream()
+                    .filter(x -> (x != null && !"".equals(x)))
+                    .collect(Collectors.toList())
+                    .toArray(new String[0]));
         } else {
             fornecedor.setTelefones(null);
         }

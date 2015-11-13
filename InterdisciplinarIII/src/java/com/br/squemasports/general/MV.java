@@ -54,6 +54,7 @@ public class MV extends ModelAndView {
     
     public void setDocument(Class<? extends Documento> T) {
         try {
+            
             Field f = T.getDeclaredField("URL_MVC");
             String url = (String) f.get(null);
             this.addObject("URL_MVC", url);
@@ -61,6 +62,7 @@ public class MV extends ModelAndView {
             f = T.getDeclaredField("URL_WS");
             url = (String) f.get(null);
             this.addObject("URL_WS", url);
+            
         } catch (Exception ex) {
             Logger.getLogger(MV.class.getName()).log(Level.SEVERE, null, ex);
         }

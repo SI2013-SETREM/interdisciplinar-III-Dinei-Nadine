@@ -12,6 +12,7 @@ public class Usuario implements Documento {
     
     private String id;
     private String nome;
+    private String login;
     private @JsonIgnore String senha;
     private @JsonIgnore String sal;
     private boolean status;
@@ -32,6 +33,14 @@ public class Usuario implements Documento {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getSenha() {

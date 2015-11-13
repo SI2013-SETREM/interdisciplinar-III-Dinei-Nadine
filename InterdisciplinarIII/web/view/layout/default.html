@@ -28,7 +28,7 @@
                 <div style="color: white;
                     padding: 15px 50px 5px 50px;
                     float: right;
-                    font-size: 16px;"> Bem vindo. &nbsp; <a href="#" class="btn btn-danger square-btn-adjust">Logout</a> </div>
+                    font-size: 16px;"> Bem vindo. <span th:text="(${sessionLogin} ? ${sessionLogin.usuarioNome} : 'Visitante')"></span> &nbsp; <a th:href="@{'/login'}" class="btn btn-danger square-btn-adjust">Logout</a> </div>
             </nav>
             <nav class="navbar-default navbar-side" role="navigation">
                 <div class="sidebar-collapse">

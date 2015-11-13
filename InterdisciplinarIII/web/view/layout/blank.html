@@ -15,8 +15,12 @@
                     <a class="navbar-brand" th:href="@{/}">Custos</a> 
                 </div>
             </nav>
-            <div id="page-wrapper-nomenu" th:include="${view} :: content">
-                <!-- View Page -->
+            <div id="page-wrapper-nomenu">
+                <div th:if="${mensagem} != null" class="alert" th:classappend="${mensagem.getCssClass()}">
+                    <b th:text="${mensagem.gravidade} + '!'"></b>
+                    <span th:text="${mensagem.msg}"></span>
+                </div>
+                <div th:replace="${view} :: content"><!-- View Page --></div>
             </div>
         </div>
         <script th:src="@{/assets/js/jquery-2.1.4.min.js}"></script>

@@ -2,15 +2,15 @@
 package com.br.squemasports.viewmodel;
 
 public class LoginViewModel {
-    private String usuario;
+    private String login;
     private String senha;
 
-    public String getUsuario() {
-        return usuario;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getSenha() {

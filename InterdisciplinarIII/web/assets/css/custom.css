@@ -44,6 +44,10 @@
 .alert .close > .fa {
   font-size: 16px;
 }
+.fa-form-control {
+  height: 34px;
+  line-height: 34px;
+}
 .form-group-lg .form-control-icon,
 .form-control-icon {
   position: relative;

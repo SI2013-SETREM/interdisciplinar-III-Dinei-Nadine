@@ -2,6 +2,7 @@ package com.br.squemasports.controller.mvc;
 
 import com.br.squemasports.dao.UsuarioRepository;
 import com.br.squemasports.general.MV;
+import com.br.squemasports.general.WsRequest;
 import com.br.squemasports.model.Usuario;
 import com.br.squemasports.viewmodel.MensagemMVC;
 import com.br.squemasports.viewmodel.UsuarioViewModel;
