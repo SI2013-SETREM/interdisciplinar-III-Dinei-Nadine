@@ -2,6 +2,7 @@
 package com.br.squemasports.model;
 
 import com.br.squemasports.general.Util;
+import com.br.squemasports.viewmodel.UsuarioViewModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -69,6 +70,20 @@ public class Usuario implements Documento {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public void fill(UsuarioViewModel vm) {
+        vm.setId(id);
+        vm.setNome(nome);
+        vm.setLogin(login);
+        vm.setSenha(senha);
+        vm.setConfirmaSenha(senha);
+        vm.setStatus(status);
+    }
+    
+    @Override
+    public String toString() {
+        return this.nome;
     }
     
 }

@@ -1,6 +1,7 @@
 
 package com.br.squemasports.viewmodel;
 
+import com.br.squemasports.general.Util;
 import com.br.squemasports.model.Usuario;
 
 public class UsuarioViewModel {
@@ -63,7 +64,11 @@ public class UsuarioViewModel {
     public MensagemMVC fill(Usuario usuario) {
         MensagemMVC r = new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "");
         
-        usuario.setNome(nome);
+        usuario.setNome(Util.getString(nome));
+        usuario.setLogin(Util.getString(login));
+        this.setSenha(Util.getString(senha));
+        this.setConfirmaSenha(Util.getString(confirmaSenha));
+        
         usuario.setStatus(status);
         if (senha != null && confirmaSenha != null) {
             if (!senha.equals(confirmaSenha)) {
@@ -74,6 +79,11 @@ public class UsuarioViewModel {
             }
         }
         return r;
+    }
+
+    @Override
+    public String toString() {
+        return this.nome;
     }
     
 }

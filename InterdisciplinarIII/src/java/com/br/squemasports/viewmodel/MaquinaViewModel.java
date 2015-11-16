@@ -1,6 +1,7 @@
 
 package com.br.squemasports.viewmodel;
 
+import com.br.squemasports.general.Util;
 import com.br.squemasports.model.Maquina;
 
 public class MaquinaViewModel {
@@ -30,7 +31,7 @@ public class MaquinaViewModel {
     }
 
     public void fill(Maquina maquina) {
-        maquina.setFabricanteModelo(fabricanteModelo);
+        maquina.setFabricanteModelo(Util.getString(fabricanteModelo));
         maquina.setCustoMinuto(custoMinuto);
     }
     

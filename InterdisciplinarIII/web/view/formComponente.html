@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head></head>
+    <body>
+        <div th:fragment="content">
+            <div class="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 th:text="${titulo}"></h2>
+                        <form method="POST" class="form-horizontal" th:object="${documento}">
+                            <div class="form-group">
+                                <label for="categoriaId" class="control-label col-md-3 col-sm-1">Categoria:</label>
+                                <div class="col-md-6 col-sm-12">
+                                    <select th:field="*{categoriaId}" class="form-control">
+                                        <option value=""></option>
+                                        <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="nome" class="control-label col-md-3 col-sm-3">Nome:*</label>
+                                <div class="col-md-6 col-sm-9">
+                                    <input th:field="*{nome}" class="form-control" type="text" autofocus="" required="" placeholder="Nome" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="unidadeMedidaId" class="control-label col-md-3 col-sm-1">Unidade de Medida:</label>
+                                <div class="col-md-6 col-sm-12">
+                                    <select th:field="*{unidadeMedidaId}" class="form-control">
+                                        <option value=""></option>
+                                        <option th:each="unidadeMedida : ${unidadesMedida}" th:value="${unidadeMedida.id}" th:text="${unidadeMedida.nome + ' (' + unidadeMedida.sigla + ')'}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="aliquotaICMS" class="control-label col-md-3 col-sm-3">Alíquota de ICMS:</label>
+                                <div class="col-md-6 col-sm-9">
+                                    <input th:field="*{aliquotaICMS}" class="form-control" type="number" placeholder="Alíquota de ICMS" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="aliquotaIPI" class="control-label col-md-3 col-sm-3">Alíquota de IPI:</label>
+                                <div class="col-md-6 col-sm-9">
+                                    <input th:field="*{aliquotaIPI}" class="form-control" type="number" placeholder="Alíquota de IPI" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="fornecedorId" class="control-label col-md-3 col-sm-1">Fornecedor:</label>
+                                <div class="col-md-6 col-sm-12">
+                                    <select th:field="*{fornecedorId}" class="form-control">
+                                        <option value=""></option>
+                                        <option th:each="fornecedor : ${fornecedores}" th:value="${fornecedor.id}" th:text="${fornecedor.nome}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="valorUnitario" class="control-label col-md-3 col-sm-3">Valor Unitário:</label>
+                                <div class="col-md-6 col-sm-9">
+                                    <input th:field="*{valorUnitario}" class="form-control money" type="text" placeholder="Valor Unitário" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="comentario" class="control-label col-md-3 col-sm-3">Anotação adicional:</label>
+                                <div class="col-md-6 col-sm-9">
+                                    <textarea rows="2" th:field="*{comentario}" class="form-control" type="text" placeholder="Anotação"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
+                                    <a class="btn btn-default" th:href="@{${URL_MVC}}">Cancelar</a>
+                                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+    </body>
+</html>

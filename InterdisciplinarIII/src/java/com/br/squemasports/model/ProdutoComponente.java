@@ -1,6 +1,8 @@
 
 package com.br.squemasports.model;
 
+import com.br.squemasports.viewmodel.ProdutoComponenteViewModel;
+
 public class ProdutoComponente {
     
     private Componente componente;
@@ -29,6 +31,15 @@ public class ProdutoComponente {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
+    }
+    
+    public void fill(ProdutoComponenteViewModel pcvm) {
+        pcvm.setComponente(componente);
+        if (componente != null) {
+            pcvm.setComponenteId(componente.getId());
+        }
+        pcvm.setQuantidade(quantidade);
+        pcvm.setComentario(comentario);
     }
     
 }

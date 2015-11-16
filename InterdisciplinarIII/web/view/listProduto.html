@@ -3,6 +3,15 @@
     <head></head>
     <body>
         <div th:fragment="content">
+            <script type="text/javascript">
+                var dataTableOpts = {
+                    'columnDefs': [ {
+                        'targets': [0, -1, -2],
+                        'orderable': false,
+                        'searchable': false
+                    } ],
+                };
+            </script>
             <div class="page-inner">
                 <div class="row">
                     <div class="col-md-12">
@@ -11,16 +20,26 @@
                         <table class="dataTable table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Fabricante/Modelo</th>
-                                    <th>Custo/Minuto</th>
+                                    <th class="col-button-header">Detalhes</th>
+                                    <th>Referência</th>
+                                    <th>Nome</th>
+                                    <th>Categoria</th>
+                                    <th>Custo total</th>
                                     <th class="col-button-header">Editar</th>
                                     <th class="col-button-header">Excluir</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="documento : ${lista}" th:object="${documento}">
-                                    <td th:text="*{fabricanteModelo}"></td>
-                                    <td th:text="*{{custoMinuto}}"></td>
+                                    <td class="text-center">
+                                        <a th:href="@{${URL_MVC} + '/' + *{id} + '/detalhes'}">
+                                            <i class="fa fa-file-text"></i> Ver detalhes
+                                        </a>
+                                    </td>
+                                    <td th:text="*{referencia}"></td>
+                                    <td th:text="*{nome}"></td>
+                                    <td th:text="*{(categoria != null) ? (categoria.nome) : ''}"></td>
+                                    <td th:text="*{{getCustoTotal()}}"></td>
                                     <td class="text-center">
                                         <a th:href="@{${URL_MVC} + '/' + *{id}}">
                                             <i class="fa fa-pencil"></i> Editar

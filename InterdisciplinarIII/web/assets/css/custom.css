@@ -73,6 +73,13 @@
 .form-group-lg .form-control-icon > input {
   padding-left: 35px;
 }
+.list-group-item.heading {
+  font-weight: bold;
+  background-color: #E6E6E6;
+}
+.dataTables_wrapper .col-button-header {
+  max-width: 100px;
+}
 .dataTables_wrapper div.dataTables_paginate {
   padding: 0;
 }
@@ -263,6 +270,12 @@ p {
 .chat-img > img {
   margin-left: 20px;
 }
+.sidebar-collapse .nav li.selected {
+  border-left: 3px solid #C90000;
+}
+.sidebar-collapse .nav li.selected > a {
+  background-color: #151515;
+}
 .user-image {
   margin: 20px auto;
   padding: 5px;
@@ -349,6 +362,12 @@ p {
   background: #ff0000;
   top: 0px;
   z-index: 10;
+}
+.nav-second-level > li.selected > a:before,
+.nav-third-level > li.selected > a:before,
+.nav-second-level > li.selected > a:after,
+.nav-third-level > li.selected > a:after {
+  left: 17px;
 }
 .nav-second-level > li:last-child > a:after,
 .nav-third-level > li:last-child > a:after {

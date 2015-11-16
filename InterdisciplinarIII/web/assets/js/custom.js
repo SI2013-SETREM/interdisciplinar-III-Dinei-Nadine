@@ -54,7 +54,7 @@ function addItemData($before, placeholder, nameId, type) {
             n = $lastItemData.data('n')+1;
         }
     }
-    var $input;
+    var $focusOn;
     $('<div/>', {
         'class': 'list-group-item item-data',
         html: $('<div/>', {
@@ -62,7 +62,7 @@ function addItemData($before, placeholder, nameId, type) {
             html: [
                 $('<div/>', {
                     'class': 'col-md-11 col-sm-11 col-xs-11',
-                    html: $input = $('<input/>', {
+                    html: $focusOn = $('<input/>', {
                         'class': 'form-control',
                         'type': type,
                         'placeholder': placeholder,
@@ -80,7 +80,7 @@ function addItemData($before, placeholder, nameId, type) {
             ],
         }),
     }).data('n', n).insertBefore($before);
-    $input.focus();
+    $focusOn.focus();
 }
 
 function delItemData($btnDel) {
@@ -102,52 +102,110 @@ $(document).ready(function () {
     $('#addTelefoneFornecedor').click(function() {
         addItemData($(this), 'Telefone do fornecedor', 'telefones', 'tel');
     });
+    $('#addComponenteProduto').click(function() {
+        var $this = $(this),
+            nameId = 'produtoComponentes';
+        var n = $this.parent().children('.item-data').length;
+        if (n) {
+            var $lastItemData = $($this.parent().children('.item-data').get(n-1));
+            if ($lastItemData.length) {
+                n = $lastItemData.data('n')+1;
+            }
+        }
+        
+        var optionsComponente = [
+            $('<option/>', {
+                'value': '',
+            }),
+        ];
+        if (componentes && componentes.length) {
+            componentes.forEach(function (comp) {
+                optionsComponente[optionsComponente.length] = $('<option/>', {
+                    'value': comp.id,
+                    text: comp.nome,
+                });
+            });
+        }
+        
+        var $focusOn;
+        $('<div/>', {
+            'class': 'list-group-item item-data',
+            html: [
+                $('<div/>', {
+                    'class': 'form-group',
+                    html: [
+                        $('<label/>', {
+                            'class': 'control-label col-md-2 col-sm-5',
+                            'for': nameId + n + '.componenteId',
+                            text: 'Componente:',
+                        }),
+                        $('<div/>', {
+                            'class': 'col-md-4 col-sm-7',
+                            html: $focusOn = $('<select/>', {
+                                'class': 'form-control',
+                                'required': true,
+                                'name': nameId + '[' + n + '].componenteId',
+                                'id': nameId + n + '.componenteId',
+                                html: optionsComponente
+                            }),
+                        }),
+                        $('<label/>', {
+                            'class': 'control-label col-md-2 col-sm-5',
+                            'for': nameId + n + '.quantidade',
+                            text: 'Quantidade:',
+                        }),
+                        $('<div/>', {
+                            'class': 'col-md-3 col-sm-7',
+                            html: $('<input/>', {
+                                'class': 'form-control',
+                                'type': 'text',
+                                'placeholder': 'Quantidade utilizada',
+                                'name': nameId + '[' + n + '].quantidade',
+                                'id': nameId + n + '.quantidade',
+                            }),
+                        }),
+                        $('<div/>', {
+                            'class': 'col-md-1 col-sm-1 col-xs-1',
+                            html: $('<a/>', {
+                                'href': 'javascript:void(0);',
+                                'class': 'fa fa-form-control fa-trash delComponenteProduto',
+                            })
+                        }),
+                    ],
+                }),
+                $('<div/>', {
+                    'class': 'form-group',
+                    html: [
+                        $('<label/>', {
+                            'class': 'control-label col-md-2 col-sm-5',
+                            'for': nameId + n + '.comentario',
+                            text: 'Anotação:',
+                        }),
+                        $('<div/>', {
+                            'class': 'col-md-9 col-sm-7',
+                            html: $('<textarea/>', {
+                                'class': 'form-control',
+                                'rows': '2',
+                                'placeholder': 'Anotação extra',
+                                'name': nameId + '[' + n + '].comentario',
+                                'id': nameId + n + '.comentario',
+                            }),
+                        }),
+                    ],
+                }),
+            ],
+        }).data('n', n).insertBefore($this);
+        $focusOn.focus();
+    });
     // Para aplicar a elementos adicionados dinamicamente também
     $(document).on('click', '.delTelefoneFornecedor, .delEmailFornecedor', function () {
         delItemData($(this));
     });
-    
-//    $('.ajaxDelete[data-id]').click(function() {
-//        if (URL_WS) {
-//            var $this = $(this);
-//            if (!$this.data('clicked')) {
-//                var id = $this.data('id'),
-//                    $fitLoading = $(this).hasClass('ajaxLoading') ? $this : $(this).parents('.ajaxLoading'),
-//                    $loading = $('<div/>', {
-//                        'class': 'carregando',
-//                        html: $('<i/>', {
-//                            'class': 'fa fa-spinner fa-spin fa-2x',
-//                        }),
-//                    });
-//                try {
-//                    $this.data('clicked', true);
-//                    if (confirm("Deseja realmente excluir este registro?")) {
-//                        if ($fitLoading.length) {
-//                            $loading.appendTo($this);
-//                        }
-//                        if (id) {
-//                            console.log('ID: ', id);
-//                            $.ajax({
-//                                url: URL_MVC + id + "/delete",
-//                                type: 'post',
-//                                success: function() {
-//                                    
-//                                }
-//                            });
-//                        }
-//                    }
-//                } catch (Exception) {
-//
-//                } finally {
-//                    $this.data('clicked', false);
-//                    if ($loading && $loading.length) {
-//                        $loading.remove();
-//                    }
-//                }
-//            }
-//            return false;
-//        }
-//    });
+    $(document).on('click', '.delComponenteProduto', function () {
+        if (confirm('Deseja realmente remover este componente?')) {
+            delItemData($(this));
+        }
+    });
     
     // Fallback para navegadores que não suportam HTML5
     //Documentação: http://xdsoft.net/jqplugins/datetimepicker/
@@ -170,6 +228,9 @@ $(document).ready(function () {
             });
         }
     });
+    
+    //@TODO
+//    $('input.money').maskMoney();
 
     //METIS MENU 
     if (typeof($.fn.metisMenu) !== 'undefined') {
@@ -186,7 +247,10 @@ $(document).ready(function () {
     });
 
     if (typeof($.fn.dataTable) !== 'undefined') {
-        $('.dataTable').dataTable();
+        if (typeof(dataTableOpts) === 'undefined') {
+            dataTableOpts = {};
+        }
+        $('.dataTable').dataTable(dataTableOpts);
     }
 
 });

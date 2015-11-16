@@ -27,12 +27,12 @@
                                     <td th:text="*{endereco}"></td>
                                     <td class="text-center">
                                         <a th:href="@{${URL_MVC} + '/' + *{id}}">
-                                            <i class="fa fa-pencil"></i>
+                                            <i class="fa fa-pencil"></i> Editar
                                         </a>
                                     </td>
                                     <td class="text-center">
                                         <a th:href="@{${URL_MVC} + '/' + *{id} + '/delete'}" onclick="return confirm('Deseja realmente excluir este registro?')">
-                                            <i class="fa fa-trash"></i>
+                                            <i class="fa fa-trash"></i> Excluir
                                         </a>
                                     </td>
                                 </tr>

@@ -1,6 +1,7 @@
 
 package com.br.squemasports.general;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -37,6 +38,15 @@ public abstract class Util {
             return s;
         } catch (NoSuchAlgorithmException ex) {
             return "";
+        }
+    }
+    
+    public static String getString(String requested) {
+        // Assim funciona as strings, se não achar outro jeito de resolver o problema vai assim mesmo
+        try {
+            return new String(requested.getBytes("ISO-8859-1"), "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            return requested;
         }
     }
     

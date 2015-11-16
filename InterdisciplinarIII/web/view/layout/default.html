@@ -36,39 +36,45 @@
                         <li class="text-center">
                             <img th:src="@{/assets/img/squema.png}" class="user-image img-responsive"/>
                         </li>
-                        <li>
+                        <li th:classappend="(${URL_MVC} == null)? 'selected'">
                             <a href="/">
                                 <i class="fa fa-home fa-2x"></i> Início
                             </a>
                         </li>
-                        <li>
-                            <a href="ui.html">
-                                <i class="fa fa-desktop fa-2x"></i> UI Elements
+                        <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.Produto).URL_MVC})? 'selected'">
+                            <a th:href="@{${T(com.br.squemasports.model.Produto).URL_MVC}}">
+                                <i class="fa fa-cube fa-2x"></i> <span>Produtos</span>
                             </a>
                         </li>
-                        <li>
+<!--                        <li>
                             <a href="tab-panel.html">
                                 <i class="fa fa-qrcode fa-2x"></i> Tabs &amp; Panels
                             </a>
-                        </li>
+                        </li>-->
                         <li class="active">
                             <a href="#">
                                 <i class="fa fa-sitemap fa-2x"></i> Cadastros<span class="fa arrow"></span>
                             </a>
                             <ul class="nav nav-second-level">
-                                <li class="active-menu">
-                                    <a th:href="@{/fornecedor/}">Fornecedores</a>
+                                <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.Componente).URL_MVC})? 'selected'">
+                                    <a th:href="@{${T(com.br.squemasports.model.Componente).URL_MVC}}">Componentes</a>
                                 </li>
-                                <li class="active-menu">
-                                    <a th:href="@{/usuario/}">Usuários</a>
+                                <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.Fornecedor).URL_MVC})? 'selected'">
+                                    <a th:href="@{${T(com.br.squemasports.model.Fornecedor).URL_MVC}}">Fornecedores</a>
                                 </li>
-                                <li class="active-menu">
-                                    <a th:href="@{/maquina/}">Maquinário</a>
+                                <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.Maquina).URL_MVC})? 'selected'">
+                                    <a th:href="@{${T(com.br.squemasports.model.Maquina).URL_MVC}}">Maquinário</a>
                                 </li>
-                                <li class="active-menu">
-                                    <a th:href="@{/unidademedida/}">Unidades de Medida</a>
+                                <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.CategoriaProduto).URL_MVC})? 'selected'">
+                                    <a th:href="@{${T(com.br.squemasports.model.CategoriaProduto).URL_MVC}}">Categorias de Produtos</a>
                                 </li>
-                                <li>
+                                <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.UnidadeMedida).URL_MVC})? 'selected'">
+                                    <a th:href="@{${T(com.br.squemasports.model.UnidadeMedida).URL_MVC}}">Unidades de Medida</a>
+                                </li>
+                                <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.Usuario).URL_MVC})? 'selected'">
+                                    <a th:href="@{${T(com.br.squemasports.model.Usuario).URL_MVC}}">Usuários</a>
+                                </li>
+<!--                                <li>
                                     <a href="#">Second Level Link</a>
                                 </li>
                                 <li>
@@ -84,7 +90,7 @@
                                             <a href="#">Third Level Link</a>
                                         </li>
                                     </ul>
-                                </li>
+                                </li>-->
                             </ul>
                         </li>
                     </ul>

@@ -3,24 +3,20 @@ package com.br.squemasports.config;
 
 import com.br.squemasports.config.thymeleaf.ThymeleafLayoutInterceptor;
 import com.br.squemasports.viewmodel.SessionLoginViewModel;
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.math.RoundingMode;
+import java.util.Currency;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.*;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.context.request.WebRequestInterceptor;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.format.number.CurrencyFormatter;
+import org.springframework.format.datetime.DateFormatter;
+import org.springframework.format.number.NumberFormatter;
+import org.springframework.format.number.PercentFormatter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.handler.DispatcherServletWebRequest;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 @Configuration
@@ -42,6 +38,27 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 //        }
         
         registry.addResourceHandler("/assets/**").addResourceLocations("/assets/**");
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+//        registry.addFormatter(new MoneyFormatter());
+        
+//        NumberFormatter number = new NumberFormatter();
+//        number.setPattern("#");
+//        registry.addFormatter(number);
+        
+        PercentFormatter percent = new PercentFormatter();
+        registry.addFormatter(percent);
+        
+        CurrencyFormatter currency = new CurrencyFormatter();
+        currency.setCurrency(Currency.getInstance("BRL"));
+        currency.setRoundingMode(RoundingMode.HALF_UP);
+        currency.setFractionDigits(2);
+        registry.addFormatter(currency);
+        
+        DateFormatter date = new DateFormatter("dd/mm/yyyy");
+        registry.addFormatter(date);
     }
 
     @Override

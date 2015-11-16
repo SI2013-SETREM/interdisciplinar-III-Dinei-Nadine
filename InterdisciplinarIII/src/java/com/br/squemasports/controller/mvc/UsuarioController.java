@@ -33,48 +33,49 @@ public class UsuarioController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public MV form(@PathVariable("id") String id) {
         MV mv = new MV(Usuario.class, "formUsuario");
-        if ("novo".equals(id)) {
-            Usuario u = new Usuario();
-            u.setStatus(true);
-            mv.addObject("documento", u);
-            mv.addObject("titulo", "Novo usuário");
-        } else {
-            Usuario u = repo.findOne(id);
-            if (u != null) {
-                u.setSenha(null);
-                mv.addObject("documento", u);
-                mv.addObject("titulo", "Usuário " + u.getNome());
+        UsuarioViewModel documento = new UsuarioViewModel();
+        if (id != null && ObjectId.isValid(id)) {
+            Usuario usuario = repo.findOne(id);
+            if (usuario != null) {
+                usuario.setSenha(null);
+                usuario.fill(documento);
+                mv.addObject("titulo", "Usuário " + documento);
             } else {
                 mv.addObject(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.ERRO, "Registro de id '" + id + "' não encontrado"));
             }
+        } else {
+            documento.setStatus(true);
+            mv.addObject("titulo", "Novo usuário");
         }
+        mv.addObject("documento", documento);
         return mv;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public String post(@PathVariable("id") String id, @ModelAttribute UsuarioViewModel uvm, final RedirectAttributes redirectAttributes) {
         String redirect = Usuario.URL_MVC;
-        MensagemMVC msg;
+        MensagemMVC msgMvc;
         try {
             Usuario usuario = new Usuario();
             if (id != null && ObjectId.isValid(id)) {
                 usuario = repo.findOne(id);
             }
-            msg = uvm.fill(usuario);
-            if (msg.getGravidade() == MensagemMVC.GRAVIDADE.SUCESSO) {
-                if (id == null || "novo".equals(id)) {
-                    repo.insert(usuario);
-                } else {
+            msgMvc = uvm.fill(usuario);
+            if (msgMvc.getGravidade() == MensagemMVC.GRAVIDADE.SUCESSO) {
+                if (id != null && ObjectId.isValid(id)) {
                     repo.save(usuario);
+                } else {
+                    repo.insert(usuario);
                 }
-                msg = new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "Registro salvo");
+                msgMvc = new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "Registro salvo");
             } else {
+                redirectAttributes.addFlashAttribute("repopulate", uvm);
                 redirect += "/" + id;
             }
         } catch (Exception ex) {
-            msg = new MensagemMVC(MensagemMVC.GRAVIDADE.ERRO, "Falha ao salvar o registro: " + ex.getMessage());
+            msgMvc = new MensagemMVC(MensagemMVC.GRAVIDADE.ERRO, "Falha ao salvar o registro: " + ex.getMessage());
         }
-        redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, msg);
+        redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, msgMvc);
         return "redirect:" + redirect;
     }
     

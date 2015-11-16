@@ -48,8 +48,13 @@ public class LoginController {
         
         Usuario usuario = null;
         if (lvm != null) {
+            lvm.setLogin(Util.getString(lvm.getLogin()));
+            lvm.setSenha(Util.getString(lvm.getSenha()));
+            
             List<Usuario> lstUsuarios = repo.findByLogin(lvm.getLogin());
-            Optional<Usuario> optUsuario = lstUsuarios.stream().filter(u -> Util.md5(u.getSal() + lvm.getSenha()).equals(u.getSenha())).findFirst();
+            Optional<Usuario> optUsuario = lstUsuarios.stream()
+                    .filter(u -> Util.md5(u.getSal() + lvm.getSenha()).equals(u.getSenha()))
+                    .findFirst();
             usuario = optUsuario.orElse(null);
         }
         

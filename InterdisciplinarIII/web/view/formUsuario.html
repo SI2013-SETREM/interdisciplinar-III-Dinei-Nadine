@@ -9,28 +9,34 @@
                         <h2 th:text="${titulo}"></h2>
                         <form method="POST" class="form-horizontal" th:object="${documento}">
                             <div class="form-group">
-                                <label for="nome" class="control-label col-md-2 col-sm-3">Nome:*</label>
+                                <label for="nome" class="control-label col-md-3 col-sm-3">Nome:*</label>
                                 <div class="col-md-6 col-sm-9">
                                     <input th:field="*{nome}" class="form-control" type="text" autofocus="" required="" placeholder="Nome do usuário" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label th:for="${#ids.next('status')}" class="control-label col-md-2 col-sm-3">Usuário ativo:</label>
+                                <label th:for="${#ids.next('status')}" class="control-label col-md-3 col-sm-3">Usuário ativo:</label>
                                 <div class="col-md-6 col-sm-9">
                                     <input th:field="*{status}" type="checkbox" style="margin-top:10px;" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="login" class="control-label col-md-2 col-sm-3">Login:*</label>
+                                <label for="login" class="control-label col-md-3 col-sm-3">Login:*</label>
                                 <div class="col-md-6 col-sm-9">
                                     <input th:field="*{login}" class="form-control" type="text" required="" placeholder="Login do usuário" />
                                 </div>
                             </div>
                             <div th:if="*{id} == null or *{id} == ''">
                                 <div class="form-group">
-                                    <label for="senha" class="control-label col-md-2 col-sm-3">Senha:*</label>
+                                    <label for="senha" class="control-label col-md-3 col-sm-3">Senha:*</label>
                                     <div class="col-md-6 col-sm-9">
                                         <input th:field="*{senha}" class="form-control" type="password" required="" placeholder="Senha" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmaSenha" class="control-label col-md-3 col-sm-3">Confirmação de senha:*</label>
+                                    <div class="col-md-6 col-sm-9">
+                                        <input th:field="*{confirmaSenha}" class="form-control" type="password" required="" placeholder="Senha" />
                                     </div>
                                 </div>
                             </div>

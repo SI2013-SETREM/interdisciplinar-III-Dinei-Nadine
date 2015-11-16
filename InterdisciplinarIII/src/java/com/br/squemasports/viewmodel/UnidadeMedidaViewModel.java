@@ -1,7 +1,9 @@
 
 package com.br.squemasports.viewmodel;
 
+import com.br.squemasports.general.Util;
 import com.br.squemasports.model.UnidadeMedida;
+import java.io.UnsupportedEncodingException;
 
 public class UnidadeMedidaViewModel {
     
@@ -34,8 +36,8 @@ public class UnidadeMedidaViewModel {
     }
     
     public void fill(UnidadeMedida unidadeMedida) {
-        unidadeMedida.setNome(nome);
-        unidadeMedida.setSigla(sigla);
+        unidadeMedida.setNome(Util.getString(nome));
+        unidadeMedida.setSigla(Util.getString(sigla));
     }
     
 }

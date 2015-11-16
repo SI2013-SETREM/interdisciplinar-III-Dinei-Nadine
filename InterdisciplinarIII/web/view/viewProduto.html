@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head></head>
+    <body>
+        <div th:fragment="content">
+            <div class="page-inner">
+                <div class="row">
+                    <div class="col-md-12" th:object="${documento}">
+                        <h2 th:text="${titulo}"></h2>
+                        <div class="form-group">
+                            <label for="referencia" class="control-label col-md-2 col-sm-1">Referência:</label>
+                            <div class="col-md-6 col-sm-12">
+                                <input th:field="*{referencia}" class="form-control" type="text" autofocus="" placeholder="Referência do produto" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nome" class="control-label col-md-2 col-sm-1">Nome:*</label>
+                            <div class="col-md-6 col-sm-12">
+                                <input th:field="*{nome}" class="form-control" type="text" required="" placeholder="Nome do produto" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="categoriaId" class="control-label col-md-2 col-sm-1">Categoria:</label>
+                            <div class="col-md-6 col-sm-12">
+                                <select th:field="*{categoriaId}" class="form-control">
+                                    <option value=""></option>
+                                    <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="minutosUnidade" class="control-label col-md-2 col-sm-1">Minutos por unidade:*</label>
+                            <div class="col-md-6 col-sm-12">
+                                <input th:field="*{minutosUnidade}" class="form-control" type="number" placeholder="Minutos gastos por unidade do produto" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <h4>Componentes:</h4>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Componente</th>
+                                        <th>Quantidade</th>
+                                        <th>Anotação</th>
+                                        <th>Valor total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="componente,componenteStat : *{produtoComponentes}" th:attr="data-n=${componenteStat.index}">
+                                        <td th:text="${__${componenteStat.index} + 1__}"></td>
+                                        <td th:text="*{(produtoComponentes[__${componenteStat.index}__].componente != null) ? (produtoComponentes[__${componenteStat.index}__].componente.nome) : ''}">Componente</td>
+                                        <td th:text="*{produtoComponentes[__${componenteStat.index}__].quantidade}"></td>
+                                        <td th:text="*{produtoComponentes[__${componenteStat.index}__].comentario}"></td>
+                                        <td th:text="${T(com.br.squemasports.model.Produto).getCustoTotal(documento)}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h3 class="col-md-12" th:text="${'Custo total: ' + T(com.br.squemasports.model.Produto).getCustoTotal(documento)}">Custo total:</h3>
+                        <div class="form-group">
+                            <div class="col-md-offset-0 col-md-11 col-sm-offset-0 col-sm-12">
+                                <a class="btn btn-default" th:href="@{${URL_MVC}}">
+                                    <i class="fa fa-chevron-left"></i> Voltar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+    </body>
+</html>

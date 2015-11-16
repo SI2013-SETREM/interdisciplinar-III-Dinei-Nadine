@@ -11,16 +11,14 @@
                         <table class="dataTable table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Fabricante/Modelo</th>
-                                    <th>Custo/Minuto</th>
+                                    <th>Nome</th>
                                     <th class="col-button-header">Editar</th>
                                     <th class="col-button-header">Excluir</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="documento : ${lista}" th:object="${documento}">
-                                    <td th:text="*{fabricanteModelo}"></td>
-                                    <td th:text="*{{custoMinuto}}"></td>
+                                    <td th:text="*{nome}"></td>
                                     <td class="text-center">
                                         <a th:href="@{${URL_MVC} + '/' + *{id}}">
                                             <i class="fa fa-pencil"></i> Editar

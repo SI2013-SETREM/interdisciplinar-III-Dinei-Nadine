@@ -21,7 +21,7 @@
                                 </div>
                             </div>
                             <div class="list-group col-md-6">
-                                <div class="list-group-item"><b>Emails:</b></div>
+                                <div class="list-group-item heading">Emails:</div>
                                 <div class="list-group-item item-data" th:each="email,emailStat : *{emails}" th:attr="data-n=${emailStat.index}">
                                     <div class="row">
                                         <div class="col-md-11 col-sm-11 col-xs-11">
@@ -37,7 +37,7 @@
                                 </a>
                             </div>
                             <div class="list-group col-md-6">
-                                <div class="list-group-item"><b>Telefones:</b></div>
+                                <div class="list-group-item heading">Telefones:</div>
                                 <div class="list-group-item item-data" th:each="tel,telStat : *{telefones}" th:attr="data-n=${telStat.index}">
                                     <div class="row">
                                         <div class="col-md-11 col-sm-11 col-xs-11">

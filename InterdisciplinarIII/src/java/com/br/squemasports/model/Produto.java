@@ -1,6 +1,10 @@
 
 package com.br.squemasports.model;
 
+import com.br.squemasports.viewmodel.ProdutoComponenteViewModel;
+import com.br.squemasports.viewmodel.ProdutoViewModel;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -66,6 +70,68 @@ public class Produto implements Documento {
 
     public void setMinutosUnidade(float minutosUnidade) {
         this.minutosUnidade = minutosUnidade;
+    }
+    
+    public void fill(ProdutoViewModel pvm) {
+        pvm.setId(id);
+        pvm.setReferencia(referencia);
+        pvm.setNome(nome);
+        pvm.setCategoria(categoria);
+        if (categoria != null) {
+            pvm.setCategoriaId(categoria.getId());
+        }
+        if (produtoComponentes != null) {
+            List<ProdutoComponenteViewModel> listPcvm = new ArrayList<>();
+            for (ProdutoComponente pc : produtoComponentes) {
+                if (pc != null) {
+                    ProdutoComponenteViewModel pcvm = new ProdutoComponenteViewModel();
+                    pc.fill(pcvm);
+                    listPcvm.add(pcvm);
+                }
+            }
+            pvm.setProdutoComponentes(listPcvm);
+        } else {
+            pvm.setProdutoComponentes(null);
+        }
+        pvm.setMinutosUnidade(minutosUnidade);
+    }
+    
+    public Float getCustoTotal() {
+        return Produto.getCustoTotal(this);
+    }
+    
+    public static float getCustoTotal(Produto produto) {
+        float valor = 0;
+        if (produto != null && produto.getProdutoComponentes() != null) {
+            for (ProdutoComponente pc : produto.getProdutoComponentes()) {
+                if (pc != null) {
+                    Componente c = pc.getComponente();
+                    if (c != null) {
+                        valor += c.getValorUnitario() * pc.getQuantidade();
+                    }
+                }
+            }
+        }
+        return valor;
+    }
+    public static float getCustoTotal(ProdutoViewModel produto) {
+        float valor = 0;
+        if (produto != null && produto.getProdutoComponentes() != null) {
+            for (ProdutoComponenteViewModel pc : produto.getProdutoComponentes()) {
+                if (pc != null) {
+                    Componente c = pc.getComponente();
+                    if (c != null) {
+                        valor += c.getValorUnitario() * pc.getQuantidade();
+                    }
+                }
+            }
+        }
+        return valor;
+    }
+
+    @Override
+    public String toString() {
+        return ((this.referencia != null) ? this.referencia + " - " : "") + this.nome;
     }
     
 }
