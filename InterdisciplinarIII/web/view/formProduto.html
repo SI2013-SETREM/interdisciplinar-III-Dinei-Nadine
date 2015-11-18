@@ -45,7 +45,7 @@
                                 <div class="list-group-item heading">Componentes do produto:</div>
                                 <div class="list-group-item item-data" th:each="componente,componenteStat : *{produtoComponentes}" th:attr="data-n=${componenteStat.index}">
                                     <div class="form-group">
-                                        <label th:for="${'produtoComponentes' + __${componenteStat.index}__ + '.componenteId'}" th:text="${'Componente #' + __${componenteStat.index} + 1__ + ':*'}" class="control-label col-md-2 col-sm-5">
+                                        <label th:for="${'produtoComponentes' + __${componenteStat.index}__ + '.componenteId'}" class="control-label col-md-2 col-sm-5">
                                             Componente:*
                                         </label>
                                         <div class="col-md-4 col-sm-7">
@@ -79,12 +79,6 @@
                                 <button type="submit" name="addComponente" class="list-group-item list-group-item-success text-center">
                                     Adicionar componente
                                 </button>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-2 col-sm-1">Custo total:</label>
-                                <div class="col-md-6 col-sm-12">
-                                    <span class="custo-total-produto" th:text="${{T(com.br.squemasports.model.Produto).getCustoTotal(documento)}}"></span>
-                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">

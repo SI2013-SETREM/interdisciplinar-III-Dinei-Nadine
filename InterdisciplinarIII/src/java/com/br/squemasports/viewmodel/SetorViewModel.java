@@ -1,16 +1,11 @@
 
-package com.br.squemasports.model;
+package com.br.squemasports.viewmodel;
 
-import org.springframework.format.annotation.NumberFormat;
-
-public class Setor {
+public class SetorViewModel {
     
     private String nome;
-    @NumberFormat(style = NumberFormat.Style.NUMBER)
     private int funcionarios;
-    @NumberFormat(style = NumberFormat.Style.NUMBER)
     private float horasSemana;
-    @NumberFormat(style = NumberFormat.Style.PERCENT)
     private float eficienciaProdutiva;
 
     public String getNome() {

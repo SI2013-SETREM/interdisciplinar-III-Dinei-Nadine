@@ -7,58 +7,88 @@
                 <div class="row">
                     <div class="col-md-12" th:object="${documento}">
                         <h2 th:text="${titulo}"></h2>
-                        <div class="form-group">
-                            <label for="referencia" class="control-label col-md-2 col-sm-1">Referência:</label>
-                            <div class="col-md-6 col-sm-12">
-                                <input th:field="*{referencia}" class="form-control" type="text" autofocus="" placeholder="Referência do produto" />
+                        <div class="row">
+                            <div class="rotulo-produto col-md-3 col-sm-4 col-xs-6">Referência:</div>
+                            <div class="campo-produto col-md-6 col-sm-8 col-xs-6" th:text="*{referencia}"></div>
+                        </div>
+                        <div class="row">
+                            <div class="rotulo-produto col-md-3 col-sm-4 col-xs-6">Nome:</div>
+                            <div class="campo-produto col-md-6 col-sm-8 col-xs-6" th:text="*{nome}"></div>
+                        </div>
+                        <div class="row">
+                            <div class="rotulo-produto col-md-3 col-sm-4 col-xs-6">Categoria:</div>
+                            <div class="campo-produto col-md-6 col-sm-8 col-xs-6" th:text="*{(categoria != null) ? (categoria.nome) : ''}"></div>
+                        </div>
+                        <div class="row">
+                            <div class="rotulo-produto col-md-3 col-sm-4 col-xs-6">Minutos por unidade:</div>
+                            <div class="campo-produto col-md-6 col-sm-8 col-xs-6" th:text="*{minutosUnidade}"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <h4>Componentes:</h4>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="nome" class="control-label col-md-2 col-sm-1">Nome:*</label>
-                            <div class="col-md-6 col-sm-12">
-                                <input th:field="*{nome}" class="form-control" type="text" required="" placeholder="Nome do produto" />
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Componente</th>
+                                            <th style="min-width:150px;">Cálculo</th>
+                                            <th>Anotação</th>
+                                            <th style="min-width:100px;">Custo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="componente,componenteStat : *{produtoComponentes}" th:attr="data-n=${componenteStat.index}">
+                                            <td th:text="${__${componenteStat.index} + 1__}">0</td>
+                                            <td th:text="*{(produtoComponentes[__${componenteStat.index}__].componente != null) ? (produtoComponentes[__${componenteStat.index}__].componente.nome) : ''}">Componente</td>
+                                            <td th:text="*{produtoComponentes[__${componenteStat.index}__].quantidade + 
+                                                ((produtoComponentes[__${componenteStat.index}__].componente != null) ? (
+                                                    (produtoComponentes[__${componenteStat.index}__].componente.unidadeMedida != null ? ' ' + produtoComponentes[__${componenteStat.index}__].componente.unidadeMedida.sigla : '')
+                                                    + ' x '
+                                                    + {produtoComponentes[__${componenteStat.index}__].componente.valorUnitario}
+                                                ) : '')}">0 un x R$ 0,00</td>
+                                            <td th:text="*{produtoComponentes[__${componenteStat.index}__].comentario}"></td>
+                                            <td th:text="*{{(produtoComponentes[__${componenteStat.index}__].componente != null) 
+                                                ? (produtoComponentes[__${componenteStat.index}__].quantidade * produtoComponentes[__${componenteStat.index}__].componente.valorUnitario) 
+                                                : ''}}">R$ 0,00</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="4" class="text-right">Total:</th>
+                                            <th th:text="${{T(com.br.squemasports.model.Produto).getCustoTotalComponentes(documento)}}">R$ 0,00</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="categoriaId" class="control-label col-md-2 col-sm-1">Categoria:</label>
-                            <div class="col-md-6 col-sm-12">
-                                <select th:field="*{categoriaId}" class="form-control">
-                                    <option value=""></option>
-                                    <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}"></option>
-                                </select>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <h4>Mão de obra:</h4>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="minutosUnidade" class="control-label col-md-2 col-sm-1">Minutos por unidade:*</label>
-                            <div class="col-md-6 col-sm-12">
-                                <input th:field="*{minutosUnidade}" class="form-control" type="number" placeholder="Minutos gastos por unidade do produto" />
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <h5>Pendente...</h5>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <h4>Componentes:</h4>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Componente</th>
-                                        <th>Quantidade</th>
-                                        <th>Anotação</th>
-                                        <th>Valor total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="componente,componenteStat : *{produtoComponentes}" th:attr="data-n=${componenteStat.index}">
-                                        <td th:text="${__${componenteStat.index} + 1__}"></td>
-                                        <td th:text="*{(produtoComponentes[__${componenteStat.index}__].componente != null) ? (produtoComponentes[__${componenteStat.index}__].componente.nome) : ''}">Componente</td>
-                                        <td th:text="*{produtoComponentes[__${componenteStat.index}__].quantidade}"></td>
-                                        <td th:text="*{produtoComponentes[__${componenteStat.index}__].comentario}"></td>
-                                        <td th:text="${T(com.br.squemasports.model.Produto).getCustoTotal(documento)}"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <h4>Maquinário:</h4>
+                            </div>
                         </div>
-                        <h3 class="col-md-12" th:text="${'Custo total: ' + T(com.br.squemasports.model.Produto).getCustoTotal(documento)}">Custo total:</h3>
-                        <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <h5>Pendente...</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <h3 class="col-md-12" th:text="${'Custo total: ' + T(com.br.squemasports.model.Produto).getCustoTotal(documento)}">Custo total:</h3>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <div class="col-md-offset-0 col-md-11 col-sm-offset-0 col-sm-12">
                                 <a class="btn btn-default" th:href="@{${URL_MVC}}">
                                     <i class="fa fa-chevron-left"></i> Voltar

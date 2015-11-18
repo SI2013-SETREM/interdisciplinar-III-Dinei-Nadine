@@ -13,7 +13,7 @@ public class Componente implements Documento {
 
     public final static String URL_MVC = "/componente";
     public final static String URL_WS = "/ws/componente";
-
+    
     @Id
     private String id;
     private String nome;

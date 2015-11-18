@@ -5,6 +5,7 @@
         <div th:fragment="content">
             <script type="text/javascript">
                 var dataTableOpts = {
+                    'order': [[2, 'asc']],
                     'columnDefs': [ {
                         'targets': [0, -1, -2],
                         'orderable': false,
@@ -31,7 +32,7 @@
                             </thead>
                             <tbody>
                                 <tr th:each="documento : ${lista}" th:object="${documento}">
-                                    <td class="text-center">
+                                    <td class="col-button text-center">
                                         <a th:href="@{${URL_MVC} + '/' + *{id} + '/detalhes'}">
                                             <i class="fa fa-file-text"></i> Ver detalhes
                                         </a>
@@ -40,12 +41,12 @@
                                     <td th:text="*{nome}"></td>
                                     <td th:text="*{(categoria != null) ? (categoria.nome) : ''}"></td>
                                     <td th:text="*{{getCustoTotal()}}"></td>
-                                    <td class="text-center">
+                                    <td class="col-button text-center">
                                         <a th:href="@{${URL_MVC} + '/' + *{id}}">
                                             <i class="fa fa-pencil"></i> Editar
                                         </a>
                                     </td>
-                                    <td class="text-center">
+                                    <td class="col-button text-center">
                                         <a th:href="@{${URL_MVC} + '/' + *{id} + '/delete'}" onclick="return confirm('Deseja realmente excluir este registro?')">
                                             <i class="fa fa-trash"></i> Excluir
                                         </a>

@@ -1,6 +1,7 @@
 
 package com.br.squemasports.general;
 
+import com.br.squemasports.config.DataConfig;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -9,6 +10,9 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.mongodb.core.MongoOperations;
 
 public abstract class Util {
     
@@ -48,6 +52,11 @@ public abstract class Util {
         } catch (UnsupportedEncodingException ex) {
             return requested;
         }
+    }
+    
+    public static MongoOperations getMongoOperations() {
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(DataConfig.class);
+        return (MongoOperations) ctx.getBean("mongoTemplate");
     }
     
 }

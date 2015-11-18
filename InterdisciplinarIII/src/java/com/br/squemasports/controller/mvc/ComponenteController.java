@@ -5,9 +5,14 @@ import com.br.squemasports.dao.ComponenteRepository;
 import com.br.squemasports.dao.FornecedorRepository;
 import com.br.squemasports.dao.UnidadeMedidaRepository;
 import com.br.squemasports.general.MV;
+import com.br.squemasports.general.Util;
 import com.br.squemasports.model.Componente;
+import com.br.squemasports.model.Produto;
 import com.br.squemasports.viewmodel.ComponenteViewModel;
+import com.br.squemasports.viewmodel.HistoricoValorViewModel;
 import com.br.squemasports.viewmodel.MensagemMVC;
+import java.util.ArrayList;
+import java.util.Date;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +21,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.data.mongodb.core.MongoOperations;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
+import static org.springframework.data.mongodb.core.query.Update.update;
 
 @Controller
 @RequestMapping(Componente.URL_MVC)
@@ -45,7 +54,7 @@ public class ComponenteController {
         mv.addObject("fornecedores", repoFornecedor.findAll());
         mv.addObject("unidadesMedida", repoUnidadeMedida.findAll());
         ComponenteViewModel vm = new ComponenteViewModel();
-        if (ObjectId.isValid(id)) {
+        if (id != null && ObjectId.isValid(id)) {
             Componente documento = repo.findOne(id);
             if (documento != null) {
                 documento.fill(vm);
@@ -68,6 +77,21 @@ public class ComponenteController {
             Componente documento = new Componente();
             if (id != null && ObjectId.isValid(id)) {
                 documento = repo.findOne(id);
+                
+                // Se mudou o valor unitário ou o fornecedor, armazena no histórico
+                if ((vm.getValorUnitario() != documento.getValorUnitario()) 
+                || (vm.getFornecedor() == null ? documento.getFornecedor() != null : documento.getFornecedor() == null || !vm.getFornecedor().getId().equals(documento.getFornecedor().getId()))) {
+                    if (vm.getHistoricoValores() == null) 
+                        vm.setHistoricoValores(new ArrayList<>());
+                    HistoricoValorViewModel historico = new HistoricoValorViewModel();
+                    historico.setValor(documento.getValorUnitario());
+                    historico.setDataEstipulacao(new Date());
+                    historico.setFornecedor(documento.getFornecedor());
+                    if (documento.getFornecedor() != null) {
+                        historico.setFornecedorId(documento.getFornecedor().getId());
+                    }
+                    vm.getHistoricoValores().add(historico);
+                }
             }
             if (vm.getUnidadeMedidaId() != null && ObjectId.isValid(vm.getUnidadeMedidaId())) {
                 vm.setUnidadeMedida(repoUnidadeMedida.findOne(vm.getUnidadeMedidaId()));
@@ -87,6 +111,15 @@ public class ComponenteController {
             vm.fill(documento);
             if (id != null && ObjectId.isValid(id)) {
                 repo.save(documento);
+                
+                // Atualiza os documentos relacionados
+                MongoOperations mongoOperations = Util.getMongoOperations();
+                documento.setHistoricoValores(null);
+                mongoOperations.updateMulti(
+                        query(where("produtoComponentes.componente.id").is(new ObjectId(id))), 
+                        update("produtoComponentes.$.componente", documento), 
+                        Produto.class);
+                
             } else {
                 repo.insert(documento);
             }

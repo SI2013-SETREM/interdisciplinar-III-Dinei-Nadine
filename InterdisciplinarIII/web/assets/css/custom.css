@@ -77,6 +77,17 @@
   font-weight: bold;
   background-color: #E6E6E6;
 }
+button.text-center {
+  text-align: center;
+}
+.rotulo-produto {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: right;
+}
+.campo-produto {
+  font-size: 14px;
+}
 .dataTables_wrapper .col-button-header {
   max-width: 100px;
 }
@@ -473,5 +484,28 @@ p {
 }
 .carregando.ok > .fa {
   display: none;
+}
+@media print {
+  .btns-top-table,
+  .navbar-default.navbar-side,
+  .btn,
+  .btn.btn-default,
+  table th.col-button-header,
+  table td.col-button,
+  .dataTables_filter,
+  .dataTables_length,
+  .dataTables_paginate {
+    display: none;
+  }
+  h2 {
+    margin-top: 0;
+    font-size: 25px;
+  }
+  h3 {
+    font-size: 20px;
+  }
+  h4 {
+    font-size: 17px;
+  }
 }
 /*# sourceMappingURL=custom.css.map */

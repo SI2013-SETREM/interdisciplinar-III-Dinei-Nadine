@@ -206,6 +206,11 @@ $(document).ready(function () {
             delItemData($(this));
         }
     });
+    $(document).on('click', '.delSetorEmpresa', function () {
+        if (confirm('Deseja realmente remover este setor?')) {
+            delItemData($(this));
+        }
+    });
     
     // Fallback para navegadores que não suportam HTML5
     //Documentação: http://xdsoft.net/jqplugins/datetimepicker/
@@ -229,8 +234,22 @@ $(document).ready(function () {
         }
     });
     
-    //@TODO
-//    $('input.money').maskMoney();
+    $('input.money').maskMoney({
+        prefix: 'R$ ',
+        decimal: ',',
+        thousands: '.',
+        allowZero: true,
+        affixesStay: true,
+    });
+    $('input.percent').maskMoney({
+        prefix: '',
+        suffix: '%',
+        decimal: ',',
+        thousands: '',
+        precision: 2,
+        allowZero: true,
+        affixesStay: true,
+    });
 
     //METIS MENU 
     if (typeof($.fn.metisMenu) !== 'undefined') {

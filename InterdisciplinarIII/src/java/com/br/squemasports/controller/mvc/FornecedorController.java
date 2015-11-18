@@ -2,7 +2,10 @@ package com.br.squemasports.controller.mvc;
 
 import com.br.squemasports.dao.FornecedorRepository;
 import com.br.squemasports.general.MV;
+import com.br.squemasports.general.Util;
+import com.br.squemasports.model.Componente;
 import com.br.squemasports.model.Fornecedor;
+import com.br.squemasports.model.Produto;
 import com.br.squemasports.viewmodel.FornecedorViewModel;
 import com.br.squemasports.viewmodel.MensagemMVC;
 import org.bson.types.ObjectId;
@@ -13,6 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.data.mongodb.core.MongoOperations;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
+import static org.springframework.data.mongodb.core.query.Update.update;
 
 @Controller
 @RequestMapping(Fornecedor.URL_MVC)
@@ -59,6 +66,17 @@ public class FornecedorController {
             fvm.fill(documento);
             if (id != null && ObjectId.isValid(id)) {
                 repo.save(documento);
+                
+                // Atualiza os documentos relacionados
+                MongoOperations mongoOperations = Util.getMongoOperations();
+                mongoOperations.updateMulti(
+                        query(where("fornecedor.id").is(new ObjectId(id))), 
+                        update("fornecedor", documento), 
+                        Componente.class);
+                mongoOperations.updateMulti(
+                        query(where("produtoComponentes.componente.fornecedor.id").is(new ObjectId(id))), 
+                        update("produtoComponentes.$.componente.fornecedor", documento), 
+                        Produto.class);
             } else {
                 repo.insert(documento);
             }

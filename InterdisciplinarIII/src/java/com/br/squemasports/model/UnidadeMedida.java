@@ -40,5 +40,10 @@ public class UnidadeMedida implements Documento {
     public void setSigla(String sigla) {
         this.sigla = sigla;
     }
+
+    @Override
+    public String toString() {
+        return sigla;
+    }
     
 }

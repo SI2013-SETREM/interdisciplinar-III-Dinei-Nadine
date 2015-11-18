@@ -11,7 +11,6 @@ import org.springframework.context.annotation.*;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.number.CurrencyFormatter;
 import org.springframework.format.datetime.DateFormatter;
-import org.springframework.format.number.NumberFormatter;
 import org.springframework.format.number.PercentFormatter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -51,10 +50,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         PercentFormatter percent = new PercentFormatter();
         registry.addFormatter(percent);
         
-        CurrencyFormatter currency = new CurrencyFormatter();
-        currency.setCurrency(Currency.getInstance("BRL"));
-        currency.setRoundingMode(RoundingMode.HALF_UP);
-        currency.setFractionDigits(2);
+        CurrencyFormatter currency = new MoneyFormatter();
+//        currency.setCurrency(Currency.getInstance("BRL"));
+//        currency.setRoundingMode(RoundingMode.HALF_UP);
+//        currency.setFractionDigits(2);
         registry.addFormatter(currency);
         
         DateFormatter date = new DateFormatter("dd/mm/yyyy");

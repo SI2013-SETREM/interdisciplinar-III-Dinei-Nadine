@@ -36,11 +36,6 @@
                         <li class="text-center">
                             <img th:src="@{/assets/img/squema.png}" class="user-image img-responsive"/>
                         </li>
-                        <li th:classappend="(${URL_MVC} == null)? 'selected'">
-                            <a href="/">
-                                <i class="fa fa-home fa-2x"></i> Início
-                            </a>
-                        </li>
                         <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.Produto).URL_MVC})? 'selected'">
                             <a th:href="@{${T(com.br.squemasports.model.Produto).URL_MVC}}">
                                 <i class="fa fa-cube fa-2x"></i> <span>Produtos</span>
@@ -65,14 +60,20 @@
                                 <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.Maquina).URL_MVC})? 'selected'">
                                     <a th:href="@{${T(com.br.squemasports.model.Maquina).URL_MVC}}">Maquinário</a>
                                 </li>
-                                <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.CategoriaProduto).URL_MVC})? 'selected'">
-                                    <a th:href="@{${T(com.br.squemasports.model.CategoriaProduto).URL_MVC}}">Categorias de Produtos</a>
-                                </li>
-                                <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.UnidadeMedida).URL_MVC})? 'selected'">
-                                    <a th:href="@{${T(com.br.squemasports.model.UnidadeMedida).URL_MVC}}">Unidades de Medida</a>
+                                <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.Empresa).URL_MVC})? 'selected'">
+                                    <a th:href="@{${T(com.br.squemasports.model.Empresa).URL_MVC}}">Empresa</a>
                                 </li>
                                 <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.Usuario).URL_MVC})? 'selected'">
                                     <a th:href="@{${T(com.br.squemasports.model.Usuario).URL_MVC}}">Usuários</a>
+                                </li>
+                                <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.CategoriaProduto).URL_MVC})? 'selected'">
+                                    <a th:href="@{${T(com.br.squemasports.model.CategoriaProduto).URL_MVC}}">Categorias de Produtos</a>
+                                </li>
+                                <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.CategoriaComponente).URL_MVC})? 'selected'">
+                                    <a th:href="@{${T(com.br.squemasports.model.CategoriaComponente).URL_MVC}}">Categorias de Componentes</a>
+                                </li>
+                                <li th:classappend="(${URL_MVC} == ${T(com.br.squemasports.model.UnidadeMedida).URL_MVC})? 'selected'">
+                                    <a th:href="@{${T(com.br.squemasports.model.UnidadeMedida).URL_MVC}}">Unidades de Medida</a>
                                 </li>
 <!--                                <li>
                                     <a href="#">Second Level Link</a>

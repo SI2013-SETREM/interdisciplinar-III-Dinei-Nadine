@@ -2,6 +2,7 @@
 package com.br.squemasports.controller.mvc;
 
 import com.br.squemasports.config.thymeleaf.Layout;
+import com.br.squemasports.model.Produto;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +13,8 @@ public class IndexController {
     
     @RequestMapping("/")
     public String index() {
-        return "index";
+//        return "index";
+        return "redirect:" + Produto.URL_MVC;
     }
     
     @Layout("layout/blank")

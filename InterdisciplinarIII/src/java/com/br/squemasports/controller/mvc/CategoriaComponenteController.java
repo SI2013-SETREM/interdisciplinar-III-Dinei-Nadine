@@ -1,9 +1,10 @@
 package com.br.squemasports.controller.mvc;
 
-import com.br.squemasports.dao.CategoriaProdutoRepository;
+import com.br.squemasports.dao.CategoriaComponenteRepository;
 import com.br.squemasports.general.MV;
 import com.br.squemasports.general.Util;
-import com.br.squemasports.model.CategoriaProduto;
+import com.br.squemasports.model.CategoriaComponente;
+import com.br.squemasports.model.Componente;
 import com.br.squemasports.model.Produto;
 import com.br.squemasports.viewmodel.MensagemMVC;
 import org.bson.types.ObjectId;
@@ -20,47 +21,47 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.core.query.Update.update;
 
 @Controller
-@RequestMapping(CategoriaProduto.URL_MVC)
-public class CategoriaProdutoController {
+@RequestMapping(CategoriaComponente.URL_MVC)
+public class CategoriaComponenteController {
     
     @Autowired
-    private CategoriaProdutoRepository repo;
+    private CategoriaComponenteRepository repo;
     
     @RequestMapping
     public MV list() {
-        MV mv = new MV(CategoriaProduto.class, "listCategoriaProduto");
-        mv.addObject("titulo", "Categorias de Produtos");
+        MV mv = new MV(CategoriaComponente.class, "listCategoriaComponente");
+        mv.addObject("titulo", "Categorias de Componentes");
         mv.addObject("lista", repo.findAll());
         return mv;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public MV form(@PathVariable("id") String id) {
-        MV mv = new MV(CategoriaProduto.class, "formCategoriaProduto");
+        MV mv = new MV(CategoriaComponente.class, "formCategoriaComponente");
         if (id != null && ObjectId.isValid(id)) {
-            CategoriaProduto u = repo.findOne(id);
+            CategoriaComponente u = repo.findOne(id);
             if (u != null) {
                 mv.addObject("documento", u);
-                mv.addObject("titulo", "Categoria de produtos " + u.getNome());
+                mv.addObject("titulo", "Categoria de componentes " + u.getNome());
             } else {
                 mv.addObject(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.ERRO, "Registro de id '" + id + "' não encontrado"));
             }
         } else {
-            CategoriaProduto u = new CategoriaProduto();
+            CategoriaComponente u = new CategoriaComponente();
             mv.addObject("documento", u);
-            mv.addObject("titulo", "Nova categoria de produtos");
+            mv.addObject("titulo", "Nova categoria de componentes");
         }
         return mv;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public String post(@PathVariable("id") String id, @ModelAttribute CategoriaProduto mvm, final RedirectAttributes redirectAttributes) {
+    public String post(@PathVariable("id") String id, @ModelAttribute CategoriaComponente categoria, final RedirectAttributes redirectAttributes) {
         try {
-            CategoriaProduto documento = new CategoriaProduto();
+            CategoriaComponente documento = new CategoriaComponente();
             if (id != null && ObjectId.isValid(id)) {
                 documento = repo.findOne(id);
             }
-            documento.setNome(Util.getString(mvm.getNome()));
+            documento.setNome(Util.getString(categoria.getNome()));
             if (id != null && ObjectId.isValid(id)) {
                 repo.save(documento);
                 
@@ -69,6 +70,10 @@ public class CategoriaProdutoController {
                 mongoOperations.updateMulti(
                         query(where("categoria.id").is(new ObjectId(id))), 
                         update("categoria", documento), 
+                        Componente.class);
+                mongoOperations.updateMulti(
+                        query(where("produtoComponentes.componente.categoria.id").is(new ObjectId(id))), 
+                        update("produtoComponentes.$.componente.categoria", documento), 
                         Produto.class);
             } else {
                 repo.insert(documento);
@@ -77,13 +82,13 @@ public class CategoriaProdutoController {
         } catch (Exception ex) {
             redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.ERRO, "Falha ao salvar o registro: " + ex.getMessage()));
         }
-        return "redirect:" + CategoriaProduto.URL_MVC;
+        return "redirect:" + CategoriaComponente.URL_MVC;
     }
     
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("id") String id, final RedirectAttributes redirectAttributes) {
         repo.delete(id);
         redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "Registro excluído"));
-        return "redirect:" + CategoriaProduto.URL_MVC;
+        return "redirect:" + CategoriaComponente.URL_MVC;
     }
 }

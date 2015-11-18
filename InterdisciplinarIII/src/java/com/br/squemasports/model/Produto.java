@@ -115,6 +115,11 @@ public class Produto implements Documento {
         return valor;
     }
     public static float getCustoTotal(ProdutoViewModel produto) {
+        float valor = getCustoTotalComponentes(produto);
+        return valor;
+    }
+    
+    public static float getCustoTotalComponentes(ProdutoViewModel produto) {
         float valor = 0;
         if (produto != null && produto.getProdutoComponentes() != null) {
             for (ProdutoComponenteViewModel pc : produto.getProdutoComponentes()) {

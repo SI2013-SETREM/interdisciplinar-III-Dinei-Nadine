@@ -1,6 +1,8 @@
 
 package com.br.squemasports.model;
 
+import com.br.squemasports.viewmodel.EmpresaViewModel;
+import java.util.Arrays;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,7 +20,6 @@ public class Empresa implements Documento {
     private float taxaImpostos;
     private Setor[] setores;
     private Custo[] custos;
-    private Maquina[] maquinas;
 
     @Override
     public String getUrlMvc() { return URL_MVC; }
@@ -77,13 +78,23 @@ public class Empresa implements Documento {
     public void setCustos(Custo[] custos) {
         this.custos = custos;
     }
-
-    public Maquina[] getMaquinas() {
-        return maquinas;
-    }
-
-    public void setMaquinas(Maquina[] maquinas) {
-        this.maquinas = maquinas;
+    
+    public void fill(EmpresaViewModel vm) {
+        vm.setId(id);
+        vm.setNome(nome);
+        vm.setTaxaInconformidade(taxaInconformidade);
+        vm.setTaxaInadimplencia(taxaInadimplencia);
+        vm.setTaxaImpostos(taxaImpostos);
+        if (setores != null) {
+            vm.setSetores(Arrays.asList(setores));
+        } else {
+            vm.setSetores(null);
+        }
+        if (custos != null) {
+            vm.setCustos(Arrays.asList(custos));
+        } else {
+            vm.setCustos(null);
+        }
     }
     
 }

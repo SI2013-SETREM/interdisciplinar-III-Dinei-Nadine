@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head></head>
+    <body>
+        <div th:fragment="content">
+            <div class="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 th:text="${titulo}"></h2>
+                        <form method="POST" class="form-horizontal" th:object="${documento}" accept-charset="UTF-8">
+                            <div class="form-group">
+                                <label for="nome" class="control-label col-md-2 col-sm-3">Nome:*</label>
+                                <div class="col-md-6 col-sm-9">
+                                    <input th:field="*{nome}" class="form-control" type="text" autofocus="" required="" placeholder="Nome da empresa" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="taxaInconformidade" class="control-label col-md-2 col-sm-3">Taxa Inconformidade:</label>
+                                <div class="col-md-6 col-sm-9">
+                                    <input th:field="*{taxaInconformidade}" class="form-control percent" type="text" placeholder="Taxa padrão de inconformidades" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="taxaInadimplencia" class="control-label col-md-2 col-sm-3">Taxa Inadimplência</label>
+                                <div class="col-md-6 col-sm-9">
+                                    <input th:field="*{taxaInadimplencia}" class="form-control percent" type="text" placeholder="Taxa padrão de inadimplência" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="taxaImpostos" class="control-label col-md-2 col-sm-3">Taxa de Impostos</label>
+                                <div class="col-md-6 col-sm-9">
+                                    <input th:field="*{taxaImpostos}" class="form-control percent" type="text" placeholder="Taxa padrão de impostos" />
+                                </div>
+                            </div>
+                            <div class="list-group col-md-6">
+                                <div class="list-group-item heading">Setores da empresa:</div>
+                                <div class="list-group-item item-data" th:each="setor,setorStat : *{setores}" th:attr="data-n=${setorStat.index}">
+                                    <div class="form-group">
+                                        <label th:for="${'setores' + __${setorStat.index}__ + '.nome'}" class="control-label col-md-4 col-sm-4">
+                                            Setor:*
+                                        </label>
+                                        <div class="col-md-7 col-sm-7">
+                                            <input th:field="*{setores[__${setorStat.index}__].nome}" class="form-control" type="text" placeholder="Nome do setor" />
+                                        </div>
+                                        <div class="col-md-1 col-sm-1 col-xs-1">
+                                            <a href="javascript:void(0);" class="fa fa-form-control fa-trash delSetorEmpresa"></a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:for="${'setores' + __${setorStat.index}__ + '.funcionarios'}" class="control-label col-md-4 col-sm-4">
+                                            Nº de funcionários:
+                                        </label>
+                                        <div class="col-md-7 col-sm-7">
+                                            <input th:field="*{setores[__${setorStat.index}__].funcionarios}" class="form-control" type="text" placeholder="Número de funcionários" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:for="${'setores' + __${setorStat.index}__ + '.horasSemana'}" class="control-label col-md-4 col-sm-4">
+                                            Horas semanais:
+                                        </label>
+                                        <div class="col-md-7 col-sm-7">
+                                            <input th:field="*{setores[__${setorStat.index}__].horasSemana}" class="form-control" type="text" placeholder="Carga horária semanal" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:for="${'setores' + __${setorStat.index}__ + '.eficienciaProdutiva'}" class="control-label col-md-4 col-sm-4">
+                                            Eficiência:
+                                        </label>
+                                        <div class="col-md-7 col-sm-7">
+                                            <input th:field="*{setores[__${setorStat.index}__].eficienciaProdutiva}" class="form-control percent" type="text" placeholder="Eficiência produtiva" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" name="addSetor" class="list-group-item list-group-item-success text-center">
+                                    Adicionar setor
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
+                                    <a class="btn btn-default" th:href="@{${URL_MVC}}">Cancelar</a>
+                                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+    </body>
+</html>
