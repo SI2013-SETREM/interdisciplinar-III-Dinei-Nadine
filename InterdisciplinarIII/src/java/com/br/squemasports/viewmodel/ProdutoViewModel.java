@@ -4,9 +4,10 @@ import com.br.squemasports.general.Util;
 import com.br.squemasports.model.CategoriaProduto;
 import com.br.squemasports.model.Produto;
 import com.br.squemasports.model.ProdutoComponente;
+import com.br.squemasports.model.ProdutoMaquina;
+import com.br.squemasports.model.ProdutoSetor;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.format.annotation.NumberFormat;
 
 public class ProdutoViewModel {
 
@@ -16,10 +17,8 @@ public class ProdutoViewModel {
     private String categoriaId;
     private CategoriaProduto categoria;
     private List<ProdutoComponenteViewModel> produtoComponentes;
-    @NumberFormat(style = NumberFormat.Style.NUMBER)
-    private float minutosUnidade;
-    @NumberFormat(style = NumberFormat.Style.CURRENCY)
-    private float custoFinal;
+    private List<ProdutoMaquinaViewModel> produtoMaquinas;
+    private List<ProdutoSetorViewModel> produtoSetores;
 
     public String getId() {
         return id;
@@ -69,22 +68,22 @@ public class ProdutoViewModel {
         this.produtoComponentes = produtoComponentes;
     }
 
-    public float getMinutosUnidade() {
-        return minutosUnidade;
+    public List<ProdutoMaquinaViewModel> getProdutoMaquinas() {
+        return produtoMaquinas;
     }
 
-    public void setMinutosUnidade(float minutosUnidade) {
-        this.minutosUnidade = minutosUnidade;
+    public void setProdutoMaquinas(List<ProdutoMaquinaViewModel> produtoMaquinas) {
+        this.produtoMaquinas = produtoMaquinas;
     }
 
-    public float getCustoFinal() {
-        return custoFinal;
+    public List<ProdutoSetorViewModel> getProdutoSetores() {
+        return produtoSetores;
     }
 
-    public void setCustoFinal(float custoFinal) {
-        this.custoFinal = custoFinal;
+    public void setProdutoSetores(List<ProdutoSetorViewModel> produtoSetores) {
+        this.produtoSetores = produtoSetores;
     }
-
+    
     public void fill(Produto produto) {
         produto.setReferencia(Util.getString(referencia));
         produto.setNome(Util.getString(nome));
@@ -103,7 +102,34 @@ public class ProdutoViewModel {
         } else {
             produto.setProdutoComponentes(null);
         }
-        produto.setMinutosUnidade(minutosUnidade);
+        if (produtoMaquinas != null) {
+            List<ProdutoMaquina> listDocumento = new ArrayList<>();
+            produtoMaquinas.stream()
+                    .filter(vm -> vm != null && !(Float.compare(vm.getMinutos(), (float) 0) == 0))
+                    .forEach(vm -> {
+                        ProdutoMaquina pc = new ProdutoMaquina();
+                        vm.fill(pc);
+                        listDocumento.add(pc);
+                    });
+            produto.setProdutoMaquinas(listDocumento
+                    .toArray(new ProdutoMaquina[0]));
+        } else {
+            produto.setProdutoMaquinas(null);
+        }
+        if (produtoSetores != null) {
+            List<ProdutoSetor> listDocumento = new ArrayList<>();
+            produtoSetores.stream()
+                    .filter(vm -> vm != null && !(Float.compare(vm.getMinutos(), (float) 0) == 0))
+                    .forEach(vm -> {
+                        ProdutoSetor ps = new ProdutoSetor();
+                        vm.fill(ps);
+                        listDocumento.add(ps);
+                    });
+            produto.setProdutoSetores(listDocumento
+                    .toArray(new ProdutoSetor[0]));
+        } else {
+            produto.setProdutoSetores(null);
+        }
     }
 
     @Override

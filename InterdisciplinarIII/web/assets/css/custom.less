@@ -604,4 +604,23 @@ p {
     h4 {
         font-size: 17px;
     }
+    
+    table.table > tbody > tr > td,
+    table.table > tbody > tr > th,
+    table.table > tfoot > tr > td, 
+    table.table > tfoot > tr > th, 
+    table.table > thead > tr > td, 
+    table.table > thead > tr > th {
+        padding: 2px;
+    }
+    
+    table.dataTable thead th.sorting:after,
+    table.dataTable thead th.sorting_asc:after,
+    table.dataTable thead th.sorting_desc:after{
+        display: none;
+    }
+    
+    hr {
+        margin-bottom: 2px;
+    }
 }

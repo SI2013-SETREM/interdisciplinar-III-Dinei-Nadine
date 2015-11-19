@@ -3,13 +3,27 @@ package com.br.squemasports.controller.mvc;
 
 import com.br.squemasports.dao.CategoriaProdutoRepository;
 import com.br.squemasports.dao.ComponenteRepository;
+import com.br.squemasports.dao.MaquinaRepository;
 import com.br.squemasports.dao.ProdutoRepository;
 import com.br.squemasports.general.MV;
+import com.br.squemasports.general.Util;
+import com.br.squemasports.model.Componente;
+import com.br.squemasports.model.Empresa;
+import com.br.squemasports.model.Maquina;
 import com.br.squemasports.model.Produto;
+import com.br.squemasports.model.ProdutoMaquina;
+import com.br.squemasports.model.ProdutoSetor;
+import com.br.squemasports.model.Setor;
 import com.br.squemasports.viewmodel.ProdutoViewModel;
 import com.br.squemasports.viewmodel.MensagemMVC;
 import com.br.squemasports.viewmodel.ProdutoComponenteViewModel;
+import com.br.squemasports.viewmodel.ProdutoMaquinaViewModel;
+import com.br.squemasports.viewmodel.ProdutoSetorViewModel;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,12 +44,15 @@ public class ProdutoController {
     private CategoriaProdutoRepository repoCategoria;
     @Autowired
     private ComponenteRepository repoComponentes;
+    @Autowired
+    private MaquinaRepository repoMaquinas;
     
     @RequestMapping
     public MV list() {
         MV mv = new MV(Produto.class, "listProduto");
         mv.addObject("titulo", "Produtos");
         mv.addObject("lista", repo.findAll());
+        mv.addObject("allowPrinting", true);
         return mv;
     }
 
@@ -53,9 +70,11 @@ public class ProdutoController {
             } else {
                 mv.addObject(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.ERRO, "Registro de id '" + id + "' não encontrado"));
             }
-        } else {
-            mv.addObject("titulo", "Novo produto");
         }
+        
+        mv.addObject("titulo", getTitulo(id, pvm));
+        montaMaquinas(pvm);
+        montaSetores(pvm);
         mv.addObject("documento", pvm);
         return mv;
     }
@@ -66,14 +85,13 @@ public class ProdutoController {
         mv.addObject("categorias", repoCategoria.findAll());
         mv.addObject("componentes", repoComponentes.findAll());
         ProdutoViewModel pvm = documento;
-        if (id != null && ObjectId.isValid(id)) {
-            mv.addObject("titulo", "Produto " + pvm);
-        } else {
-            mv.addObject("titulo", "Novo produto");
-        }
         if (pvm.getProdutoComponentes() == null) 
             pvm.setProdutoComponentes(new ArrayList<>());
         pvm.getProdutoComponentes().add(new ProdutoComponenteViewModel());
+        
+        mv.addObject("titulo", getTitulo(id, pvm));
+        montaMaquinas(pvm);
+        montaSetores(pvm);
         mv.addObject("documento", pvm);
         return mv;
     }
@@ -94,7 +112,27 @@ public class ProdutoController {
                 pvm.getProdutoComponentes().stream()
                         .filter((pcvm) -> pcvm.getComponenteId() != null && ObjectId.isValid(pcvm.getComponenteId()))
                         .forEach((pcvm) -> {
-                            pcvm.setComponente(repoComponentes.findOne(pcvm.getComponenteId()));
+                            Componente comp = repoComponentes.findOne(pcvm.getComponenteId());
+                            if (comp != null) 
+                                comp.setHistoricoValores(null);
+                            pcvm.setComponente(comp);
+                        });
+            }
+            if (pvm.getProdutoMaquinas()!= null) {
+                pvm.getProdutoMaquinas().stream()
+                        .filter((pmvm) -> pmvm.getMaquinaId()!= null && ObjectId.isValid(pmvm.getMaquinaId()))
+                        .forEach((pcvm) -> {
+                            pcvm.setMaquina(repoMaquinas.findOne(pcvm.getMaquinaId()));
+                        });
+            }
+            if (pvm.getProdutoSetores()!= null) {
+                Empresa empresa = Util.getEmpresa();
+                pvm.getProdutoSetores().stream()
+                        .filter((pmvm) -> pmvm.getSetorId() != null && ObjectId.isValid(pmvm.getSetorId()))
+                        .forEach((pcvm) -> {
+                            Optional<Setor> optSetor = Stream.of(empresa.getSetores()).filter(x -> x.getId().equals(pcvm.getSetorId())).findFirst();
+                            if (optSetor.isPresent()) 
+                                pcvm.setSetor(optSetor.get());
                         });
             }
             pvm.fill(produto);
@@ -105,8 +143,6 @@ public class ProdutoController {
             }
             redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "Registro salvo"));
         } catch (Exception ex) {
-            System.out.println(ex);
-            ex.printStackTrace();
             redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.ERRO, "Falha ao salvar o registro: " + ex.getMessage()));
         }
         return "redirect:" + Produto.URL_MVC;
@@ -124,10 +160,11 @@ public class ProdutoController {
         MV mv = new MV(Produto.class, "viewProduto");
         ProdutoViewModel pvm = new ProdutoViewModel();
         if (ObjectId.isValid(id)) {
-            Produto doc = repo.findOne(id);
-            if (doc != null) {
-                doc.fill(pvm);
-                mv.addObject("titulo", "Produto " + doc);
+            Produto documento = repo.findOne(id);
+            if (documento != null) {
+                documento.calculaRateioCustosSetores();
+                documento.fill(pvm);
+                mv.addObject("titulo", "Produto " + documento);
             } else {
                 mv.addObject(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.ERRO, "Registro de id '" + id + "' não encontrado"));
             }
@@ -136,6 +173,66 @@ public class ProdutoController {
             mv.addObject(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.ERRO, "Produto não encontrado, sem identificador"));
         }
         return mv;
+    }
+    
+    private String getTitulo(String id, ProdutoViewModel pvm) {
+        if (id != null && ObjectId.isValid(id)) {
+            return "Produto " + pvm;
+        } else {
+            return "Novo produto";
+        }
+    }
+    
+    private void montaMaquinas(ProdutoViewModel pvm) {
+        List<Maquina> maquinas = repoMaquinas.findAll();
+        // Mostra todas as máquinas no sistema
+        // Pega a lista de produtoMaquinas do Produto
+        List<ProdutoMaquinaViewModel> produtoMaquinasProduto = pvm.getProdutoMaquinas();
+        if (produtoMaquinasProduto == null) {
+            produtoMaquinasProduto = new ArrayList<>();
+        }
+        List<ProdutoMaquinaViewModel> produtoMaquinas = new ArrayList<>(produtoMaquinasProduto);
+        for (Maquina m : maquinas) {
+            // Se a máquina ainda não está vinculada ao produto
+            if (produtoMaquinasProduto.stream()
+                    .noneMatch(x -> x.getMaquina() != null && x.getMaquina().getId().equals(m.getId()))) {
+                
+                ProdutoMaquinaViewModel pm = new ProdutoMaquinaViewModel();
+                pm.setMaquina(m);
+                pm.setMaquinaId(m.getId());
+                pm.setMinutos(new Float(0));
+                produtoMaquinas.add(pm);
+            }
+        }
+        pvm.setProdutoMaquinas(produtoMaquinas);
+    }
+    
+    private void montaSetores(ProdutoViewModel pvm) {
+        List<Setor> setores = new ArrayList<>();
+        Empresa empresa = Util.getEmpresa();
+        if (empresa != null) {
+            setores = Arrays.asList(empresa.getSetores());
+        }
+        // Mostra todos os setores do sistema
+        // Pega a lista de produtoSetores do Produto
+        List<ProdutoSetorViewModel> produtoSetoresProduto = pvm.getProdutoSetores();
+        if (produtoSetoresProduto == null) {
+            produtoSetoresProduto = new ArrayList<>();
+        }
+        List<ProdutoSetorViewModel> produtoSetores = new ArrayList<>(produtoSetoresProduto);
+        for (Setor s : setores) {
+            // Se a máquina ainda não está vinculada ao produto
+            if (produtoSetoresProduto.stream()
+                    .noneMatch(x -> x.getSetor()!= null && x.getSetor().getId().equals(s.getId()))) {
+                
+                ProdutoSetorViewModel pm = new ProdutoSetorViewModel();
+                pm.setSetor(s);
+                pm.setSetorId(s.getId());
+                pm.setMinutos((float) 0);
+                produtoSetores.add(pm);
+            }
+        }
+        pvm.setProdutoSetores(produtoSetores);
     }
     
 }

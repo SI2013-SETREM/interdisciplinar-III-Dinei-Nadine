@@ -1,41 +1,19 @@
 
 package com.br.squemasports.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+public class Custo {
 
-@Document
-public class Custo implements Documento {
-
-    public final static String URL_MVC = "/custo";
-    public final static String URL_WS = "/ws/custo";
-    
-    public enum TipoCusto {
-        VARIAVEL, 
-        FIXO;
-
-        @Override
-        public String toString() {
-            return super.toString(); //To change body of generated methods, choose Tools | Templates.
-        }
-        
-    }
-    
-    @Id
-    private String id;
+    private String nome;
     private float valor;
-    private float multiplicaFuncionarios;
-    private TipoCusto tipo;
+    private boolean multiplicaFuncionarios;
 
-    @Override
-    public String getUrlMvc() { return URL_MVC; }
-    @Override
-    public String getUrlWs() { return URL_WS; }
-    
-    @Override
-    public String getId() { return id; }
-    @Override
-    public void setId(String id) { this.id = id; }
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     public float getValor() {
         return valor;
@@ -45,20 +23,12 @@ public class Custo implements Documento {
         this.valor = valor;
     }
 
-    public float getMultiplicaFuncionarios() {
+    public boolean isMultiplicaFuncionarios() {
         return multiplicaFuncionarios;
     }
 
-    public void setMultiplicaFuncionarios(float multiplicaFuncionarios) {
+    public void setMultiplicaFuncionarios(boolean multiplicaFuncionarios) {
         this.multiplicaFuncionarios = multiplicaFuncionarios;
-    }
-
-    public TipoCusto getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoCusto tipo) {
-        this.tipo = tipo;
     }
     
 }

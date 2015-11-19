@@ -3,66 +3,59 @@
     <head></head>
     <body>
         <div th:fragment="content">
-            <div class="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2 th:text="${titulo}"></h2>
-                        <form method="POST" class="form-horizontal" th:object="${documento}">
-                            <div class="form-group">
-                                <label for="nome" class="control-label col-md-2 col-sm-1">Nome:*</label>
-                                <div class="col-md-6 col-sm-12">
-                                    <input th:field="*{nome}" class="form-control" type="text" autofocus="" required="" placeholder="Nome do fornecedor" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="endereco" class="control-label col-md-2 col-sm-1">Endereço:</label>
-                                <div class="col-md-6 col-sm-12">
-                                    <input th:field="*{endereco}" class="form-control" type="text" placeholder="Endereço do fornecedor" />
-                                </div>
-                            </div>
-                            <div class="list-group col-md-6">
-                                <div class="list-group-item heading">Emails:</div>
-                                <div class="list-group-item item-data" th:each="email,emailStat : *{emails}" th:attr="data-n=${emailStat.index}">
-                                    <div class="row">
-                                        <div class="col-md-11 col-sm-11 col-xs-11">
-                                            <input th:field="*{emails[__${emailStat.index}__]}" class="form-control" type="email" placeholder="Email do fornecedor" />
-                                        </div>
-                                        <div class="col-md-1 col-sm-1 col-xs-1">
-                                            <a href="javascript:void(0);" class="fa fa-form-control fa-trash delEmailFornecedor"></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="javascript:void(0);" id="addEmailFornecedor" class="list-group-item list-group-item-success text-center">
-                                    Adicionar email
-                                </a>
-                            </div>
-                            <div class="list-group col-md-6">
-                                <div class="list-group-item heading">Telefones:</div>
-                                <div class="list-group-item item-data" th:each="tel,telStat : *{telefones}" th:attr="data-n=${telStat.index}">
-                                    <div class="row">
-                                        <div class="col-md-11 col-sm-11 col-xs-11">
-                                            <input th:field="*{telefones[__${telStat.index}__]}" class="form-control" type="tel" placeholder="Telefone do fornecedor" />
-                                        </div>
-                                        <div class="col-md-1 col-sm-1 col-xs-1">
-                                            <a href="javascript:void(0);" class="fa fa-form-control fa-trash delTelefoneFornecedor"></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="javascript:void(0);" id="addTelefoneFornecedor" class="list-group-item list-group-item-success text-center">
-                                    Adicionar telefone
-                                </a>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
-                                    <a class="btn btn-default" th:href="@{${URL_MVC}}">Cancelar</a>
-                                    <input type="submit" value="Salvar" class="btn btn-primary" />
-                                </div>
-                            </div>
-                        </form>
+            <h2 th:text="${titulo}"></h2>
+            <form method="POST" class="form-horizontal" th:object="${documento}">
+                <div class="form-group">
+                    <label for="nome" class="control-label col-md-2 col-sm-1">Nome:*</label>
+                    <div class="col-md-6 col-sm-12">
+                        <input th:field="*{nome}" class="form-control" type="text" autofocus="" required="" placeholder="Nome do fornecedor" />
                     </div>
                 </div>
-                <hr />
-            </div>
+                <div class="form-group">
+                    <label for="endereco" class="control-label col-md-2 col-sm-1">Endereço:</label>
+                    <div class="col-md-6 col-sm-12">
+                        <input th:field="*{endereco}" class="form-control" type="text" placeholder="Endereço do fornecedor" />
+                    </div>
+                </div>
+                <div class="list-group col-md-6">
+                    <div class="list-group-item heading">Emails:</div>
+                    <div class="list-group-item item-data" th:each="email,emailStat : *{emails}" th:attr="data-n=${emailStat.index}">
+                        <div class="row">
+                            <div class="col-md-11 col-sm-11 col-xs-11">
+                                <input th:field="*{emails[__${emailStat.index}__]}" class="form-control" type="email" placeholder="Email do fornecedor" />
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-1">
+                                <a href="javascript:void(0);" class="fa fa-form-control fa-trash delEmailFornecedor"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0);" id="addEmailFornecedor" class="list-group-item list-group-item-success text-center">
+                        Adicionar email
+                    </a>
+                </div>
+                <div class="list-group col-md-6">
+                    <div class="list-group-item heading">Telefones:</div>
+                    <div class="list-group-item item-data" th:each="tel,telStat : *{telefones}" th:attr="data-n=${telStat.index}">
+                        <div class="row">
+                            <div class="col-md-11 col-sm-11 col-xs-11">
+                                <input th:field="*{telefones[__${telStat.index}__]}" class="form-control" type="tel" placeholder="Telefone do fornecedor" />
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-1">
+                                <a href="javascript:void(0);" class="fa fa-form-control fa-trash delTelefoneFornecedor"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0);" id="addTelefoneFornecedor" class="list-group-item list-group-item-success text-center">
+                        Adicionar telefone
+                    </a>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
+                        <a class="btn btn-default" th:href="@{${URL_MVC}}">Cancelar</a>
+                        <input type="submit" value="Salvar" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
         </div>
     </body>
 </html>

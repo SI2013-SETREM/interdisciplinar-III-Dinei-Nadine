@@ -6,6 +6,9 @@
             <a th:href="@{${URL_MVC} + '/novo'}" class="btn btn-success">
                 <i class="fa fa-plus"></i> Novo
             </a>
+            <a th:if="${allowPrinting}" href="javascript:window.print();" class="btn btn-default pull-right">
+                <i class="fa fa-print"></i> Imprimir
+            </a>
         </div>
     </body>
 </html>

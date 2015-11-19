@@ -13,51 +13,44 @@
                     } ],
                 };
             </script>
-            <div class="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2 th:text="${titulo}"></h2>
-                        <div th:replace="fragments/list :: btnsTopTable"></div>
-                        <table class="dataTable table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="col-button-header">Detalhes</th>
-                                    <th>Referência</th>
-                                    <th>Nome</th>
-                                    <th>Categoria</th>
-                                    <th>Custo total</th>
-                                    <th class="col-button-header">Editar</th>
-                                    <th class="col-button-header">Excluir</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="documento : ${lista}" th:object="${documento}">
-                                    <td class="col-button text-center">
-                                        <a th:href="@{${URL_MVC} + '/' + *{id} + '/detalhes'}">
-                                            <i class="fa fa-file-text"></i> Ver detalhes
-                                        </a>
-                                    </td>
-                                    <td th:text="*{referencia}"></td>
-                                    <td th:text="*{nome}"></td>
-                                    <td th:text="*{(categoria != null) ? (categoria.nome) : ''}"></td>
-                                    <td th:text="*{{getCustoTotal()}}"></td>
-                                    <td class="col-button text-center">
-                                        <a th:href="@{${URL_MVC} + '/' + *{id}}">
-                                            <i class="fa fa-pencil"></i> Editar
-                                        </a>
-                                    </td>
-                                    <td class="col-button text-center">
-                                        <a th:href="@{${URL_MVC} + '/' + *{id} + '/delete'}" onclick="return confirm('Deseja realmente excluir este registro?')">
-                                            <i class="fa fa-trash"></i> Excluir
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <hr />
-            </div>
+            <h2 th:text="${titulo}"></h2>
+            <div th:replace="fragments/list :: btnsTopTable"></div>
+            <table class="dataTable table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-button-header">Detalhes</th>
+                        <th>Referência</th>
+                        <th>Nome</th>
+                        <th>Categoria</th>
+                        <th>Custo total</th>
+                        <th class="col-button-header">Editar</th>
+                        <th class="col-button-header">Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="documento : ${lista}" th:object="${documento}">
+                        <td class="col-button text-center">
+                            <a th:href="@{${URL_MVC} + '/' + *{id} + '/detalhes'}">
+                                <i class="fa fa-file-text"></i> Ver detalhes
+                            </a>
+                        </td>
+                        <td th:text="*{referencia}"></td>
+                        <td th:text="*{nome}"></td>
+                        <td th:text="*{(categoria != null) ? (categoria.nome) : ''}"></td>
+                        <td th:text="*{{getCustoTotal()}}"></td>
+                        <td class="col-button text-center">
+                            <a th:href="@{${URL_MVC} + '/' + *{id}}">
+                                <i class="fa fa-pencil"></i> Editar
+                            </a>
+                        </td>
+                        <td class="col-button text-center">
+                            <a th:href="@{${URL_MVC} + '/' + *{id} + '/delete'}" onclick="return confirm('Deseja realmente excluir este registro?')">
+                                <i class="fa fa-trash"></i> Excluir
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </body>
 </html>

@@ -1,7 +1,10 @@
 
 package com.br.squemasports.model;
 
+import com.br.squemasports.general.Util;
 import com.br.squemasports.viewmodel.ProdutoComponenteViewModel;
+import com.br.squemasports.viewmodel.ProdutoMaquinaViewModel;
+import com.br.squemasports.viewmodel.ProdutoSetorViewModel;
 import com.br.squemasports.viewmodel.ProdutoViewModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +23,9 @@ public class Produto implements Documento {
     private String nome;
     private CategoriaProduto categoria;
     private ProdutoComponente[] produtoComponentes;
-    private float minutosUnidade;
-
+    private ProdutoMaquina[] produtoMaquinas;
+    private ProdutoSetor[] produtoSetores;
+    
     @Override
     public String getUrlMvc() { return URL_MVC; }
     @Override
@@ -64,12 +68,20 @@ public class Produto implements Documento {
         this.produtoComponentes = produtoComponentes;
     }
 
-    public float getMinutosUnidade() {
-        return minutosUnidade;
+    public ProdutoMaquina[] getProdutoMaquinas() {
+        return produtoMaquinas;
     }
 
-    public void setMinutosUnidade(float minutosUnidade) {
-        this.minutosUnidade = minutosUnidade;
+    public void setProdutoMaquinas(ProdutoMaquina[] produtoMaquinas) {
+        this.produtoMaquinas = produtoMaquinas;
+    }
+
+    public ProdutoSetor[] getProdutoSetores() {
+        return produtoSetores;
+    }
+
+    public void setProdutoSetores(ProdutoSetor[] produtoSetores) {
+        this.produtoSetores = produtoSetores;
     }
     
     public void fill(ProdutoViewModel pvm) {
@@ -93,7 +105,32 @@ public class Produto implements Documento {
         } else {
             pvm.setProdutoComponentes(null);
         }
-        pvm.setMinutosUnidade(minutosUnidade);
+        if (produtoMaquinas != null) {
+            List<ProdutoMaquinaViewModel> listVm = new ArrayList<>();
+            for (ProdutoMaquina pm : produtoMaquinas) {
+                if (pm != null) {
+                    ProdutoMaquinaViewModel pmvm = new ProdutoMaquinaViewModel();
+                    pm.fill(pmvm);
+                    listVm.add(pmvm);
+                }
+            }
+            pvm.setProdutoMaquinas(listVm);
+        } else {
+            pvm.setProdutoMaquinas(null);
+        }
+        if (produtoSetores != null) {
+            List<ProdutoSetorViewModel> listVm = new ArrayList<>();
+            for (ProdutoSetor ps : produtoSetores) {
+                if (ps != null) {
+                    ProdutoSetorViewModel pmvm = new ProdutoSetorViewModel();
+                    ps.fill(pmvm);
+                    listVm.add(pmvm);
+                }
+            }
+            pvm.setProdutoSetores(listVm);
+        } else {
+            pvm.setProdutoSetores(null);
+        }
     }
     
     public Float getCustoTotal() {
@@ -115,7 +152,8 @@ public class Produto implements Documento {
         return valor;
     }
     public static float getCustoTotal(ProdutoViewModel produto) {
-        float valor = getCustoTotalComponentes(produto);
+        float valor = getCustoTotalComponentes(produto) 
+                + getCustoTotalMaquinas(produto);
         return valor;
     }
     
@@ -132,6 +170,67 @@ public class Produto implements Documento {
             }
         }
         return valor;
+    }
+    
+    public static float getCustoTotalMaquinas(ProdutoViewModel produto) {
+        float valor = 0;
+        if (produto != null && produto.getProdutoMaquinas()!= null) {
+            for (ProdutoMaquinaViewModel pm : produto.getProdutoMaquinas()) {
+                if (pm != null) {
+                    Maquina maquina = pm.getMaquina();
+                    if (maquina != null) {
+                        valor += pm.getMinutos() * maquina.getCustoMinuto();
+                    }
+                }
+            }
+        }
+        return valor;
+    }
+    
+    public static float getCustoTotalSetores(ProdutoViewModel produto) {
+        float valor = 0;
+        if (produto != null && produto.getProdutoSetores()!= null) {
+            for (ProdutoSetorViewModel ps : produto.getProdutoSetores()) {
+                if (ps != null) {
+                    valor += ps.getMinutos() * ps.getCustoMinuto();
+                }
+            }
+        }
+        return valor;
+    }
+    
+    public void calculaRateioCustosSetores() {
+        Empresa empresa = Util.getEmpresa();
+        if (empresa.getSetores() != null) {
+            for (ProdutoSetor produtoSetor : this.getProdutoSetores()) {
+                Setor setor = produtoSetor.getSetor();
+                if (setor == null) 
+                    continue;
+
+                float minutosTrabalhoMensal = (
+                    setor.getFuncionarios() * setor.getHorasSemana() //horas semanais
+                    * 4 //converte para valor mensal (4 semanas/mês)
+                    * 60 //converte para minutos
+                    * setor.getEficienciaProdutiva() //aplica o índice de produtividade/ociosidade
+                );
+
+                // Custo médio do salário
+                float rateioCustoMinutoSetor = (setor.getSalarioMedio() / minutosTrabalhoMensal);
+                if (empresa.getCustos() != null) {
+                    // Faz o rateio dos custos e soma junto
+                    for (Custo custo : empresa.getCustos()) {
+                        float valorCusto = custo.getValor();
+                        if (custo.isMultiplicaFuncionarios()) 
+                            valorCusto *= setor.getFuncionarios();
+                        // Calcula o custo/minuto do setor (com ociosidade) (na planilha se chama valor/minuto/homem com ociosidade)
+                        rateioCustoMinutoSetor += (valorCusto / minutosTrabalhoMensal);
+                    }
+                }
+                produtoSetor.setCustoMinuto(rateioCustoMinutoSetor);
+            }
+        } else {
+            this.setProdutoSetores(null); //Se não tiver custos gerais nem setores, pode ignorar os setores do produto, pois não sabemos qual é o custo por homem
+        }
     }
 
     @Override

@@ -79,6 +79,16 @@ public class Empresa implements Documento {
         this.custos = custos;
     }
     
+    public int getNumFuncionarios() {
+        int funcionarios = 0;
+        if (setores != null && setores.length > 0) {
+            for (Setor setor : setores) {
+                funcionarios += setor.getFuncionarios();
+            }
+        }
+        return funcionarios;
+    }
+    
     public void fill(EmpresaViewModel vm) {
         vm.setId(id);
         vm.setNome(nome);
@@ -95,6 +105,11 @@ public class Empresa implements Documento {
         } else {
             vm.setCustos(null);
         }
+    }
+
+    @Override
+    public String toString() {
+        return nome;
     }
     
 }

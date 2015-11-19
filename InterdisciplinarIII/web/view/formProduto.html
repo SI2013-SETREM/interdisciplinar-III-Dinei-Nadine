@@ -9,88 +9,116 @@
                 var componentes = /*[[${componentes}]]*/ null;
                 var categorias = /*[[${categorias}]]*/ null;
             </script>
-            <div class="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2 th:text="${titulo}">Produto</h2>
-                        <form method="POST" class="form-horizontal" th:object="${documento}">
-                            <div class="form-group">
-                                <label for="referencia" class="control-label col-md-2 col-sm-1">Referência:</label>
-                                <div class="col-md-6 col-sm-12">
-                                    <input th:field="*{referencia}" class="form-control" type="text" autofocus="" placeholder="Referência do produto" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="nome" class="control-label col-md-2 col-sm-1">Nome:*</label>
-                                <div class="col-md-6 col-sm-12">
-                                    <input th:field="*{nome}" class="form-control" type="text" required="" placeholder="Nome do produto" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="categoriaId" class="control-label col-md-2 col-sm-1">Categoria:</label>
-                                <div class="col-md-6 col-sm-12">
-                                    <select th:field="*{categoriaId}" class="form-control">
-                                        <option value=""></option>
-                                        <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}"></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="minutosUnidade" class="control-label col-md-2 col-sm-1">Minutos por unidade:</label>
-                                <div class="col-md-6 col-sm-12">
-                                    <input th:field="*{minutosUnidade}" class="form-control" type="number" placeholder="Minutos gastos por unidade do produto" />
-                                </div>
-                            </div>
-                            <div class="list-group col-md-12">
-                                <div class="list-group-item heading">Componentes do produto:</div>
-                                <div class="list-group-item item-data" th:each="componente,componenteStat : *{produtoComponentes}" th:attr="data-n=${componenteStat.index}">
-                                    <div class="form-group">
-                                        <label th:for="${'produtoComponentes' + __${componenteStat.index}__ + '.componenteId'}" class="control-label col-md-2 col-sm-5">
-                                            Componente:*
-                                        </label>
-                                        <div class="col-md-4 col-sm-7">
-                                            <select th:field="*{produtoComponentes[__${componenteStat.index}__].componenteId}" required="" class="form-control">
-                                                <option value=""></option>
-                                                <option th:each="cmp : ${componentes}" th:value="${cmp.id}" th:text="${cmp.nome}"></option>
-                                            </select>
-                                        </div>
-                                        <label th:for="${'produtoComponentes' + __${componenteStat.index}__ + '.quantidade'}" class="control-label col-md-2 col-sm-5">
-                                            Quantidade:
-                                        </label>
-                                        <div class="col-md-3 col-sm-7">
-                                            <input th:field="*{produtoComponentes[__${componenteStat.index}__].quantidade}" class="form-control" type="text" placeholder="Quantidade utilizada" />
-                                        </div>
-                                        <div class="col-md-1 col-sm-1 col-xs-1">
-                                            <a href="javascript:void(0);" class="fa fa-form-control fa-trash delComponenteProduto"></a>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label th:for="${'produtoComponentes' + __${componenteStat.index}__ + '.comentario'}" class="control-label col-md-2 col-sm-5">
-                                            Anotação:
-                                        </label>
-                                        <div class="col-md-9 col-sm-7">
-                                            <textarea rows="2" th:field="*{produtoComponentes[__${componenteStat.index}__].comentario}" class="form-control" placeholder="Anotação extra"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--<a href="javascript:void(0);" id="addComponenteProduto" class="list-group-item list-group-item-success text-center">
-                                    Adicionar componente
-                                </a>-->
-                                <button type="submit" name="addComponente" class="list-group-item list-group-item-success text-center">
-                                    Adicionar componente
-                                </button>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
-                                    <a class="btn btn-default" th:href="@{${URL_MVC}}">Cancelar</a>
-                                    <input type="submit" value="Salvar" class="btn btn-primary" />
-                                </div>
-                            </div>
-                        </form>
+            <h2 th:text="${titulo}">Produto</h2>
+            <form method="POST" class="form-horizontal" th:object="${documento}">
+                <!-- Botão oculto para ser ativado no enter -->
+                <button type="submit" value="Salvar" style="overflow: visible !important; height: 0 !important; width: 0 !important; margin: 0 !important; border: 0 !important; padding: 0 !important; display: block !important;"></button>
+                <div class="form-group">
+                    <label for="referencia" class="control-label col-md-2 col-sm-1">Referência:</label>
+                    <div class="col-md-6 col-sm-12">
+                        <input th:field="*{referencia}" class="form-control" type="text" autofocus="" placeholder="Referência do produto" />
                     </div>
                 </div>
-                <hr />
-            </div>
+                <div class="form-group">
+                    <label for="nome" class="control-label col-md-2 col-sm-1">Nome:*</label>
+                    <div class="col-md-6 col-sm-12">
+                        <input th:field="*{nome}" class="form-control" type="text" required="" placeholder="Nome do produto" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="categoriaId" class="control-label col-md-2 col-sm-1">Categoria:</label>
+                    <div class="col-md-6 col-sm-12">
+                        <select th:field="*{categoriaId}" class="form-control">
+                            <option value=""></option>
+                            <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="list-group col-md-12">
+                    <div class="list-group-item heading">Componentes do produto:</div>
+                    <div class="list-group-item item-data" th:each="componente,componenteStat : *{produtoComponentes}" th:attr="data-n=${componenteStat.index}">
+                        <div class="form-group">
+                            <label th:for="${'produtoComponentes' + __${componenteStat.index}__ + '.componenteId'}" class="control-label col-md-2 col-sm-5">
+                                Componente:*
+                            </label>
+                            <div class="col-md-4 col-sm-7">
+                                <select th:field="*{produtoComponentes[__${componenteStat.index}__].componenteId}" required="" class="form-control">
+                                    <option value=""></option>
+                                    <option th:each="cmp : ${componentes}" th:value="${cmp.id}" th:text="${cmp.nome}"></option>
+                                </select>
+                            </div>
+                            <label th:for="${'produtoComponentes' + __${componenteStat.index}__ + '.quantidade'}" class="control-label col-md-2 col-sm-5">
+                                Quantidade:
+                            </label>
+                            <div class="col-md-3 col-sm-7">
+                                <input th:field="*{produtoComponentes[__${componenteStat.index}__].quantidade}" class="form-control" type="text" placeholder="Quantidade utilizada" />
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-1">
+                                <a href="javascript:void(0);" class="fa fa-form-control fa-trash delComponenteProduto"></a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="${'produtoComponentes' + __${componenteStat.index}__ + '.comentario'}" class="control-label col-md-2 col-sm-5">
+                                Anotação:
+                            </label>
+                            <div class="col-md-9 col-sm-7">
+                                <textarea rows="2" th:field="*{produtoComponentes[__${componenteStat.index}__].comentario}" class="form-control" placeholder="Anotação extra"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" name="addComponente" class="list-group-item list-group-item-success text-center">
+                        Adicionar componente
+                    </button>
+                </div>
+                <div class="list-group col-md-6">
+                    <div class="list-group-item heading">Máquinas utilizadas na produção:</div>
+                    <div class="list-group-item item-data" th:each="maquina,maquinaStat : *{produtoMaquinas}" th:attr="data-n=${maquinaStat.index}">
+                        <div class="form-group row">
+                            <input th:field="*{produtoMaquinas[__${maquinaStat.index}__].maquinaId}" type="hidden" />
+                            <label class="control-label col-md-4 col-sm-5">
+                                Máquina:
+                            </label>
+                            <div th:text="*{(produtoMaquinas[__${maquinaStat.index}__].maquina != null) ? produtoMaquinas[__${maquinaStat.index}__].maquina.fabricanteModelo : ''}" class="col-md-8 col-sm-7 form-control-static">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label th:for="${'produtoMaquinas' + __${maquinaStat.index}__ + '.minutos'}" class="control-label col-md-4 col-sm-6">
+                                Minutos por unidade:
+                            </label>
+                            <div class="col-md-6 col-sm-6">
+                                <input th:field="*{produtoMaquinas[__${maquinaStat.index}__].minutos}" class="form-control" type="number" min="0" placeholder="Minutos de uso da máquina" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group col-md-6">
+                    <div class="list-group-item heading">Mão de obra por setor:</div>
+                    <div class="list-group-item item-data" th:each="setor,setorStat : *{produtoSetores}" th:attr="data-n=${setorStat.index}">
+                        <div class="form-group row">
+                            <input th:field="*{produtoSetores[__${setorStat.index}__].setorId}" type="hidden" />
+                            <label class="control-label col-md-4 col-sm-5">
+                                Setor:
+                            </label>
+                            <div th:text="*{(produtoSetores[__${setorStat.index}__].setor != null) ? produtoSetores[__${setorStat.index}__].setor.nome : ''}" class="col-md-8 col-sm-7 form-control-static">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label th:for="${'produtoSetores' + __${setorStat.index}__ + '.minutos'}" class="control-label col-md-4 col-sm-6">
+                                Minutos por unidade:
+                            </label>
+                            <div class="col-md-6 col-sm-6">
+                                <input th:field="*{produtoSetores[__${setorStat.index}__].minutos}" class="form-control" type="number" min="0" placeholder="Minutos de mão de obra no setor" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
+                        <a class="btn btn-default" th:href="@{${URL_MVC}}">Cancelar</a>
+                        <input type="submit" value="Salvar" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
         </div>
     </body>
 </html>

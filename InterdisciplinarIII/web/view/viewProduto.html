@@ -2,102 +2,143 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head></head>
     <body>
-        <div th:fragment="content">
-            <div class="page-inner">
-                <div class="row">
-                    <div class="col-md-12" th:object="${documento}">
-                        <h2 th:text="${titulo}"></h2>
-                        <div class="row">
-                            <div class="rotulo-produto col-md-3 col-sm-4 col-xs-6">Referência:</div>
-                            <div class="campo-produto col-md-6 col-sm-8 col-xs-6" th:text="*{referencia}"></div>
-                        </div>
-                        <div class="row">
-                            <div class="rotulo-produto col-md-3 col-sm-4 col-xs-6">Nome:</div>
-                            <div class="campo-produto col-md-6 col-sm-8 col-xs-6" th:text="*{nome}"></div>
-                        </div>
-                        <div class="row">
-                            <div class="rotulo-produto col-md-3 col-sm-4 col-xs-6">Categoria:</div>
-                            <div class="campo-produto col-md-6 col-sm-8 col-xs-6" th:text="*{(categoria != null) ? (categoria.nome) : ''}"></div>
-                        </div>
-                        <div class="row">
-                            <div class="rotulo-produto col-md-3 col-sm-4 col-xs-6">Minutos por unidade:</div>
-                            <div class="campo-produto col-md-6 col-sm-8 col-xs-6" th:text="*{minutosUnidade}"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <h4>Componentes:</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <table class="table table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Componente</th>
-                                            <th style="min-width:150px;">Cálculo</th>
-                                            <th>Anotação</th>
-                                            <th style="min-width:100px;">Custo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="componente,componenteStat : *{produtoComponentes}" th:attr="data-n=${componenteStat.index}">
-                                            <td th:text="${__${componenteStat.index} + 1__}">0</td>
-                                            <td th:text="*{(produtoComponentes[__${componenteStat.index}__].componente != null) ? (produtoComponentes[__${componenteStat.index}__].componente.nome) : ''}">Componente</td>
-                                            <td th:text="*{produtoComponentes[__${componenteStat.index}__].quantidade + 
-                                                ((produtoComponentes[__${componenteStat.index}__].componente != null) ? (
-                                                    (produtoComponentes[__${componenteStat.index}__].componente.unidadeMedida != null ? ' ' + produtoComponentes[__${componenteStat.index}__].componente.unidadeMedida.sigla : '')
-                                                    + ' x '
-                                                    + {produtoComponentes[__${componenteStat.index}__].componente.valorUnitario}
-                                                ) : '')}">0 un x R$ 0,00</td>
-                                            <td th:text="*{produtoComponentes[__${componenteStat.index}__].comentario}"></td>
-                                            <td th:text="*{{(produtoComponentes[__${componenteStat.index}__].componente != null) 
-                                                ? (produtoComponentes[__${componenteStat.index}__].quantidade * produtoComponentes[__${componenteStat.index}__].componente.valorUnitario) 
-                                                : ''}}">R$ 0,00</td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="4" class="text-right">Total:</th>
-                                            <th th:text="${{T(com.br.squemasports.model.Produto).getCustoTotalComponentes(documento)}}">R$ 0,00</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <h4>Mão de obra:</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <h5>Pendente...</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <h4>Maquinário:</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <h5>Pendente...</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <h3 class="col-md-12" th:text="${'Custo total: ' + T(com.br.squemasports.model.Produto).getCustoTotal(documento)}">Custo total:</h3>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-md-offset-0 col-md-11 col-sm-offset-0 col-sm-12">
-                                <a class="btn btn-default" th:href="@{${URL_MVC}}">
-                                    <i class="fa fa-chevron-left"></i> Voltar
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+        <div th:fragment="content" th:object="${documento}">
+            <h2 th:text="${titulo}"></h2>
+            <div class="row">
+                <div class="rotulo-produto col-md-3 col-sm-4 col-xs-6">Referência:</div>
+                <div class="campo-produto col-md-6 col-sm-8 col-xs-6" th:text="*{referencia}"></div>
+            </div>
+            <div class="row">
+                <div class="rotulo-produto col-md-3 col-sm-4 col-xs-6">Nome:</div>
+                <div class="campo-produto col-md-6 col-sm-8 col-xs-6" th:text="*{nome}"></div>
+            </div>
+            <div class="row">
+                <div class="rotulo-produto col-md-3 col-sm-4 col-xs-6">Categoria:</div>
+                <div class="campo-produto col-md-6 col-sm-8 col-xs-6" th:text="*{(categoria != null) ? (categoria.nome) : ''}"></div>
+            </div>
+            <div class="row" th:if="*{produtoComponentes != null and #arrays.length(produtoComponentes) > 0}">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h4>Componentes:</h4>
                 </div>
-                <hr />
+            </div>
+            <div class="row" th:if="*{produtoComponentes != null and #arrays.length(produtoComponentes) > 0}">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Componente</th>
+                                <th class="text-center" style="min-width:150px;">Cálculo</th>
+                                <th>Anotação</th>
+                                <th class="text-center" style="min-width:100px;">Custo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="componente,componenteStat : *{produtoComponentes}" th:attr="data-n=${componenteStat.index}">
+                                <td th:text="${__${componenteStat.index} + 1__}">0</td>
+                                <td th:text="*{(produtoComponentes[__${componenteStat.index}__].componente != null) ? (produtoComponentes[__${componenteStat.index}__].componente.nome) : ''}">Componente</td>
+                                <td class="text-right" th:text="*{produtoComponentes[__${componenteStat.index}__].quantidade + 
+                                    ((produtoComponentes[__${componenteStat.index}__].componente != null) ? (
+                                        (produtoComponentes[__${componenteStat.index}__].componente.unidadeMedida != null ? ' ' + produtoComponentes[__${componenteStat.index}__].componente.unidadeMedida.sigla : '')
+                                        + ' x '
+                                        + {produtoComponentes[__${componenteStat.index}__].componente.valorUnitario}
+                                    ) : '')}">0 un x R$ 0,00</td>
+                                <td th:text="*{produtoComponentes[__${componenteStat.index}__].comentario}"></td>
+                                <td class="text-right" th:text="*{{(produtoComponentes[__${componenteStat.index}__].componente != null) 
+                                    ? (produtoComponentes[__${componenteStat.index}__].quantidade * produtoComponentes[__${componenteStat.index}__].componente.valorUnitario) 
+                                    : ''}}">R$ 0,00</td>
+                            </tr>
+                            <tr>
+                                <th colspan="5" class="text-right" th:text="${'Total: ' + {T(com.br.squemasports.model.Produto).getCustoTotalComponentes(documento)}}">R$ 0,00</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row" th:if="*{produtoSetores != null and #arrays.length(produtoSetores) > 0}">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h4>Mão de obra por setor:</h4>
+                </div>
+            </div>
+            <div class="row" th:if="*{produtoSetores != null and #arrays.length(produtoSetores) > 0}">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Setor</th>
+                                <th class="text-center" style="min-width:150px;">Cálculo</th>
+                                <th class="text-center" style="min-width:100px;">Custo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="setor,setorStat : *{produtoSetores}" th:attr="data-n=${setorStat.index}">
+                                <td th:text="${__${setorStat.index} + 1__}">0</td>
+                                <td th:text="*{(produtoSetores[__${setorStat.index}__].setor != null) ? (produtoSetores[__${setorStat.index}__].setor.nome) : ''}">Setor</td>
+                                <td class="text-right" th:text="*{produtoSetores[__${setorStat.index}__].minutos + ' min' +
+                                        ' x ' + {produtoSetores[__${setorStat.index}__].custoMinuto} + '/min'
+                                    }">0 min x R$ 0,00/min</td>
+                                <td class="text-right" th:text="*{{produtoSetores[__${setorStat.index}__].minutos * produtoSetores[__${setorStat.index}__].custoMinuto}}">R$ 0,00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <small class="pull-left">* Os custos mensais da empresa estão incluídos nestes valores</small>
+                                </td>
+                                <th colspan="2" class="text-right" th:text="${'Total: ' + {T(com.br.squemasports.model.Produto).getCustoTotalSetores(documento)}}">R$ 0,00</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row" th:if="*{produtoMaquinas != null and #arrays.length(produtoMaquinas) > 0}">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h4>Maquinário:</h4>
+                </div>
+            </div>
+            <div class="row" th:if="*{produtoMaquinas != null and #arrays.length(produtoMaquinas) > 0}">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Máquina</th>
+                                <th class="text-center" style="min-width:150px;">Cálculo</th>
+                                <th class="text-center" style="min-width:100px;">Custo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="maquina,maquinaStat : *{produtoMaquinas}" th:attr="data-n=${maquinaStat.index}">
+                                <td th:text="${__${maquinaStat.index} + 1__}">0</td>
+                                <td th:text="*{(produtoMaquinas[__${maquinaStat.index}__].maquina != null) ? (produtoMaquinas[__${maquinaStat.index}__].maquina.fabricanteModelo) : ''}">Máquina</td>
+                                <td class="text-right" th:text="*{produtoMaquinas[__${maquinaStat.index}__].minutos + ' min' +
+                                    ((produtoMaquinas[__${maquinaStat.index}__].maquina != null) ? (
+                                        ' x ' + {produtoMaquinas[__${maquinaStat.index}__].maquina.custoMinuto} + '/min'
+                                    ) : '')}">0 min x R$ 0,00/min</td>
+                                <td class="text-right" th:text="*{{(produtoMaquinas[__${maquinaStat.index}__].maquina != null) 
+                                    ? (produtoMaquinas[__${maquinaStat.index}__].minutos * produtoMaquinas[__${maquinaStat.index}__].maquina.custoMinuto) 
+                                    : ''}}">R$ 0,00</td>
+                            </tr>
+                            <tr>
+                                <th colspan="4" class="text-right" th:text="${'Total: ' + {T(com.br.squemasports.model.Produto).getCustoTotalMaquinas(documento)}}">R$ 0,00</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h3 class="col-md-12" th:text="${'Custo total: ' + T(com.br.squemasports.model.Produto).getCustoTotal(documento)}">Custo total:</h3>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-offset-0 col-md-11 col-sm-offset-0 col-sm-12">
+                    <a class="btn btn-default" th:href="@{${URL_MVC}}">
+                        <i class="fa fa-chevron-left"></i> Voltar
+                    </a>
+                    <a class="btn btn-primary" href="javascript:window.print();">
+                        <i class="fa fa-print"></i> Imprimir
+                    </a>
+                </div>
             </div>
         </div>
     </body>

@@ -2,19 +2,30 @@
 package com.br.squemasports.general;
 
 import com.br.squemasports.config.DataConfig;
+import com.br.squemasports.dao.EmpresaRepository;
+import com.br.squemasports.model.Empresa;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
+@Component
 public abstract class Util {
+    
+    @Autowired
+    public static EmpresaRepository repoEmpresa;
     
     public static String reduce(String[] collection) {
         return reduce(collection, ", ");
@@ -57,6 +68,14 @@ public abstract class Util {
     public static MongoOperations getMongoOperations() {
         ApplicationContext ctx = new AnnotationConfigApplicationContext(DataConfig.class);
         return (MongoOperations) ctx.getBean("mongoTemplate");
+    }
+    
+    public static Empresa getEmpresa() {
+        List<Empresa> empresas = getMongoOperations().findAll(Empresa.class);
+        if (empresas != null && empresas.size() > 0) {
+            return empresas.get(0);
+        }
+        return null;
     }
     
 }

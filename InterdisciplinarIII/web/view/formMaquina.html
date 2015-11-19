@@ -3,34 +3,27 @@
     <head></head>
     <body>
         <div th:fragment="content">
-            <div class="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2 th:text="${titulo}"></h2>
-                        <form method="POST" class="form-horizontal" th:object="${documento}">
-                            <div class="form-group">
-                                <label for="fabricanteModelo" class="control-label col-md-3 col-sm-3">Fabricante/Modelo:*</label>
-                                <div class="col-md-6 col-sm-9">
-                                    <input th:field="*{fabricanteModelo}" class="form-control" type="text" autofocus="" required="" placeholder="Fabricante e modelo da máquina" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="custoMinuto" class="control-label col-md-3 col-sm-3">Custo/minuto:*</label>
-                                <div class="col-md-3 col-sm-9">
-                                    <input th:field="*{custoMinuto}" class="form-control money" type="text" required="" placeholder="Custo por minuto da máquina" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
-                                    <a class="btn btn-default" th:href="@{${URL_MVC}}">Cancelar</a>
-                                    <input type="submit" value="Salvar" class="btn btn-primary" />
-                                </div>
-                            </div>
-                        </form>
+            <h2 th:text="${titulo}"></h2>
+            <form method="POST" class="form-horizontal" th:object="${documento}">
+                <div class="form-group">
+                    <label for="fabricanteModelo" class="control-label col-md-3 col-sm-3">Fabricante/Modelo:*</label>
+                    <div class="col-md-6 col-sm-9">
+                        <input th:field="*{fabricanteModelo}" class="form-control" type="text" autofocus="" required="" placeholder="Fabricante e modelo da máquina" />
                     </div>
                 </div>
-                <hr />
-            </div>
+                <div class="form-group">
+                    <label for="custoMinuto" class="control-label col-md-3 col-sm-3">Custo/minuto:*</label>
+                    <div class="col-md-3 col-sm-9">
+                        <input th:field="*{custoMinuto}" class="form-control money" type="text" required="" placeholder="Custo por minuto da máquina" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
+                        <a class="btn btn-default" th:href="@{${URL_MVC}}">Cancelar</a>
+                        <input type="submit" value="Salvar" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
         </div>
     </body>
 </html>

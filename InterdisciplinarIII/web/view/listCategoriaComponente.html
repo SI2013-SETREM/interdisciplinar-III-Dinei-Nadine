@@ -3,39 +3,32 @@
     <head></head>
     <body>
         <div th:fragment="content">
-            <div class="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2 th:text="${titulo}"></h2>
-                        <div th:replace="fragments/list :: btnsTopTable"></div>
-                        <table class="dataTable table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th class="col-button-header">Editar</th>
-                                    <th class="col-button-header">Excluir</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="documento : ${lista}" th:object="${documento}">
-                                    <td th:text="*{nome}"></td>
-                                    <td class="col-button text-center">
-                                        <a th:href="@{${URL_MVC} + '/' + *{id}}">
-                                            <i class="fa fa-pencil"></i> Editar
-                                        </a>
-                                    </td>
-                                    <td class="col-button text-center">
-                                        <a th:href="@{${URL_MVC} + '/' + *{id} + '/delete'}" onclick="return confirm('Deseja realmente excluir este registro?')">
-                                            <i class="fa fa-trash"></i> Excluir
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <hr />
-            </div>
+            <h2 th:text="${titulo}"></h2>
+            <div th:replace="fragments/list :: btnsTopTable"></div>
+            <table class="dataTable table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th class="col-button-header">Editar</th>
+                        <th class="col-button-header">Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="documento : ${lista}" th:object="${documento}">
+                        <td th:text="*{nome}"></td>
+                        <td class="col-button text-center">
+                            <a th:href="@{${URL_MVC} + '/' + *{id}}">
+                                <i class="fa fa-pencil"></i> Editar
+                            </a>
+                        </td>
+                        <td class="col-button text-center">
+                            <a th:href="@{${URL_MVC} + '/' + *{id} + '/delete'}" onclick="return confirm('Deseja realmente excluir este registro?')">
+                                <i class="fa fa-trash"></i> Excluir
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </body>
 </html>

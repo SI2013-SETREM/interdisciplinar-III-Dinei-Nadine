@@ -83,6 +83,8 @@ public class EmpresaViewModel {
         documento.setTaxaInadimplencia(taxaInadimplencia);
         documento.setTaxaImpostos(taxaImpostos);
         if (setores != null) {
+            setores.stream()
+                    .forEach(x -> x.setNome(Util.getString(x.getNome())));
             documento.setSetores(setores.toArray(new Setor[0]));
         } else {
             documento.setSetores(null);

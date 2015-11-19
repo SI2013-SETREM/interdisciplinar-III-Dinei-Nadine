@@ -28,7 +28,7 @@
                 <div style="color: white;
                     padding: 15px 50px 5px 50px;
                     float: right;
-                    font-size: 16px;"> Bem vindo. <span th:text="(${sessionLogin} ? ${sessionLogin.usuarioNome} : 'Visitante')"></span> &nbsp; <a th:href="@{'/login'}" class="btn btn-danger square-btn-adjust">Logout</a> </div>
+                    font-size: 16px;"> Bem vindo. <span th:text="(${sessionLogin} ? ${sessionLogin.usuarioNome} : 'Visitante')"></span> &nbsp; <a th:href="@{'/login'}" class="btn btn-danger square-btn-adjust">Sair</a> </div>
             </nav>
             <nav class="navbar-default navbar-side" role="navigation">
                 <div class="sidebar-collapse">
@@ -102,14 +102,22 @@
                     <b th:text="${mensagem.gravidade} + '!'"></b>
                     <span th:text="${mensagem.msg}"></span>
                 </div>
-                <div th:replace="${view} :: content"><!-- View Page --></div>
+                <div class="page-inner">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div th:replace="${view} :: content"><!-- View Page --></div>
+                        </div>
+                    </div>
+                    <hr />
+                    <small class="pull-right visible-print-block">Gerado pelo Sistema de Custos da Squema Sports</small>
+                </div>
             </div>
         </div>
         <script th:src="@{/assets/js/jquery-2.1.3.min.js}"></script>
         <script th:src="@{/assets/js/bootstrap.min.js}"></script>
         <script th:src="@{/assets/js/dataTables.min.js}"></script>
         <script th:src="@{/assets/js/jquery.metisMenu.js}"></script>
-        <script th:src="@{/assets/js/jquery.maskMoney.min.js}"></script>
+        <script th:src="@{/assets/js/jquery.maskMoney.js}"></script>
         <script th:src="@{/assets/js/custom.js}"></script>
     </body>
 </html>

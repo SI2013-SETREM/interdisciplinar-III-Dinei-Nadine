@@ -3,17 +3,10 @@
     <head></head>
     <body>
         <div th:fragment="content">
-            <div class="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2>Erro</h2>
-                        <h3 th:text="${errorCode}"></h3>
-                        <h4 th:text="${errorMessage}"></h4>
-                        <a th:href="@{/}">Retornar à página inicial</a>
-                    </div>
-                </div>
-                <hr />
-            </div>
+            <h2>Erro</h2>
+            <h3 th:text="${errorCode}"></h3>
+            <h4 th:text="${errorMessage}"></h4>
+            <a th:href="@{/}">Retornar à página inicial</a>
         </div>
     </body>
 </html>
