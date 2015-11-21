@@ -36,7 +36,9 @@
                         <tbody>
                             <tr th:each="componente,componenteStat : *{produtoComponentes}" th:attr="data-n=${componenteStat.index}">
                                 <td th:text="${__${componenteStat.index} + 1__}">0</td>
-                                <td th:text="*{(produtoComponentes[__${componenteStat.index}__].componente != null) ? (produtoComponentes[__${componenteStat.index}__].componente.nome) : ''}">Componente</td>
+                                <td th:text="*{(produtoComponentes[__${componenteStat.index}__].componente != null) ? 
+                                    ((produtoComponentes[__${componenteStat.index}__].componente.categoria != null) ? produtoComponentes[__${componenteStat.index}__].componente.categoria.nome + ' / ' : '') 
+                                    + produtoComponentes[__${componenteStat.index}__].componente.nome : ''}">Componente</td>
                                 <td class="text-right" th:text="*{produtoComponentes[__${componenteStat.index}__].quantidade + 
                                     ((produtoComponentes[__${componenteStat.index}__].componente != null) ? (
                                         (produtoComponentes[__${componenteStat.index}__].componente.unidadeMedida != null ? ' ' + produtoComponentes[__${componenteStat.index}__].componente.unidadeMedida.sigla : '')

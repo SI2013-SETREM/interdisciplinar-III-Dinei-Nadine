@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head></head>
+    <body>
+        <div th:fragment="content">
+            <h2 th:text="${titulo}"></h2>
+            <form method="POST" class="form-horizontal" th:object="${documento}">
+                <div class="form-group">
+                    <label for="nome" class="control-label col-md-3 col-sm-3">Nome:*</label>
+                    <div th:text="*{nome}" class="col-md-6 col-sm-9 form-control-static"></div>
+                </div>
+                <div class="form-group">
+                    <label for="login" class="control-label col-md-3 col-sm-3">Login:*</label>
+                    <div th:text="*{login}" class="col-md-6 col-sm-9 form-control-static"></div>
+                </div>
+                <div class="form-group">
+                    <label for="senha" class="control-label col-md-3 col-sm-3">Senha atual:*</label>
+                    <div class="col-md-6 col-sm-9">
+                        <input th:field="*{senhaAntiga}" class="form-control" type="password" required="" autofocus="" placeholder="Senha" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="senha" class="control-label col-md-3 col-sm-3">Nova senha:*</label>
+                    <div class="col-md-6 col-sm-9">
+                        <input th:field="*{senha}" class="form-control" type="password" required="" placeholder="Nova senha" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmaSenha" class="control-label col-md-3 col-sm-3">Confirmação da nova senha:*</label>
+                    <div class="col-md-6 col-sm-9">
+                        <input th:field="*{confirmaSenha}" class="form-control" type="password" required="" placeholder="Confirmação da nova senha" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
+                        <a class="btn btn-default" th:href="@{${URL_MVC}}">Cancelar</a>
+                        <input type="submit" value="Salvar" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

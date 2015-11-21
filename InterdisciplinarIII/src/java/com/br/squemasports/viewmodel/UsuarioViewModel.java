@@ -9,9 +9,9 @@ public class UsuarioViewModel {
     private String id;
     private String nome;
     private String login;
+    private String senhaAntiga;
     private String senha;
     private String confirmaSenha;
-    private boolean status;
 
     public String getId() {
         return id;
@@ -37,6 +37,14 @@ public class UsuarioViewModel {
         this.login = login;
     }
 
+    public String getSenhaAntiga() {
+        return senhaAntiga;
+    }
+
+    public void setSenhaAntiga(String senhaAntiga) {
+        this.senhaAntiga = senhaAntiga;
+    }
+
     public String getSenha() {
         return senha;
     }
@@ -53,14 +61,6 @@ public class UsuarioViewModel {
         this.confirmaSenha = confirmaSenha;
     }
     
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-    
     public MensagemMVC fill(Usuario usuario) {
         MensagemMVC r = new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "");
         
@@ -68,17 +68,28 @@ public class UsuarioViewModel {
         usuario.setLogin(Util.getString(login));
         this.setSenha(Util.getString(senha));
         this.setConfirmaSenha(Util.getString(confirmaSenha));
-        
-        usuario.setStatus(status);
-        if (senha != null && confirmaSenha != null) {
-            if (!senha.equals(confirmaSenha)) {
-                r.setGravidade(MensagemMVC.GRAVIDADE.ERRO);
-                r.setMsg("As senhas não conferem");
-            } else {
-                usuario.setSenha(senha);
-            }
+        if (this.checkSenha()) {
+            usuario.setSenha(senha);
+        } else {
+            r.setGravidade(MensagemMVC.GRAVIDADE.ERRO);
+            r.setMsg("As senhas não conferem");
         }
         return r;
+    }
+    
+    public boolean checkSenha() {
+        this.setSenha(Util.getString(senha));
+        this.setConfirmaSenha(Util.getString(confirmaSenha));
+        
+        if (senha != null && confirmaSenha != null) {
+            if (!senha.equals(confirmaSenha)) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
     @Override

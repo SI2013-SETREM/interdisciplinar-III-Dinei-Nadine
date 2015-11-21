@@ -51,7 +51,7 @@
                                 Quantidade:
                             </label>
                             <div class="col-md-3 col-sm-7">
-                                <input th:field="*{produtoComponentes[__${componenteStat.index}__].quantidade}" class="form-control" type="text" placeholder="Quantidade utilizada" />
+                                <input th:field="*{produtoComponentes[__${componenteStat.index}__].quantidade}" class="form-control number" type="text" placeholder="Quantidade utilizada" />
                             </div>
                             <div class="col-md-1 col-sm-1 col-xs-1">
                                 <a href="javascript:void(0);" class="fa fa-form-control fa-trash delComponenteProduto"></a>
@@ -86,7 +86,7 @@
                                 Minutos por unidade:
                             </label>
                             <div class="col-md-6 col-sm-6">
-                                <input th:field="*{produtoMaquinas[__${maquinaStat.index}__].minutos}" class="form-control" type="number" min="0" placeholder="Minutos de uso da máquina" />
+                                <input th:field="*{produtoMaquinas[__${maquinaStat.index}__].minutos}" class="form-control number" type="text" min="0" placeholder="Minutos de uso da máquina" />
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                                 Minutos por unidade:
                             </label>
                             <div class="col-md-6 col-sm-6">
-                                <input th:field="*{produtoSetores[__${setorStat.index}__].minutos}" class="form-control" type="number" min="0" placeholder="Minutos de mão de obra no setor" />
+                                <input th:field="*{produtoSetores[__${setorStat.index}__].minutos}" class="form-control number" type="text" min="0" placeholder="Minutos de mão de obra no setor" />
                             </div>
                         </div>
                     </div>

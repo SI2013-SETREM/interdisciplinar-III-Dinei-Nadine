@@ -9,7 +9,7 @@
                 <thead>
                     <tr>
                         <th>Fabricante/Modelo</th>
-                        <th>Custo/Minuto</th>
+                        <th class="text-right">Custo/Minuto</th>
                         <th class="col-button-header">Editar</th>
                         <th class="col-button-header">Excluir</th>
                     </tr>
@@ -17,7 +17,7 @@
                 <tbody>
                     <tr th:each="documento : ${lista}" th:object="${documento}">
                         <td th:text="*{fabricanteModelo}"></td>
-                        <td th:text="*{{custoMinuto}}"></td>
+                        <td class="text-right" th:text="*{{custoMinuto}}"></td>
                         <td class="text-center">
                             <a th:href="@{${URL_MVC} + '/' + *{id}}">
                                 <i class="fa fa-pencil"></i> Editar

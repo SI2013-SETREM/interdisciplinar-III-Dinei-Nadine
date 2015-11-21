@@ -102,101 +102,6 @@ $(document).ready(function () {
     $('#addTelefoneFornecedor').click(function() {
         addItemData($(this), 'Telefone do fornecedor', 'telefones', 'tel');
     });
-//    $('#addComponenteProduto').click(function() {
-//        var $this = $(this),
-//            nameId = 'produtoComponentes';
-//        var n = $this.parent().children('.item-data').length;
-//        if (n) {
-//            var $lastItemData = $($this.parent().children('.item-data').get(n-1));
-//            if ($lastItemData.length) {
-//                n = $lastItemData.data('n')+1;
-//            }
-//        }
-//        
-//        var optionsComponente = [
-//            $('<option/>', {
-//                'value': '',
-//            }),
-//        ];
-//        if (componentes && componentes.length) {
-//            componentes.forEach(function (comp) {
-//                optionsComponente[optionsComponente.length] = $('<option/>', {
-//                    'value': comp.id,
-//                    text: comp.nome,
-//                });
-//            });
-//        }
-//        
-//        var $focusOn;
-//        $('<div/>', {
-//            'class': 'list-group-item item-data',
-//            html: [
-//                $('<div/>', {
-//                    'class': 'form-group',
-//                    html: [
-//                        $('<label/>', {
-//                            'class': 'control-label col-md-2 col-sm-5',
-//                            'for': nameId + n + '.componenteId',
-//                            text: 'Componente:',
-//                        }),
-//                        $('<div/>', {
-//                            'class': 'col-md-4 col-sm-7',
-//                            html: $focusOn = $('<select/>', {
-//                                'class': 'form-control',
-//                                'required': true,
-//                                'name': nameId + '[' + n + '].componenteId',
-//                                'id': nameId + n + '.componenteId',
-//                                html: optionsComponente
-//                            }),
-//                        }),
-//                        $('<label/>', {
-//                            'class': 'control-label col-md-2 col-sm-5',
-//                            'for': nameId + n + '.quantidade',
-//                            text: 'Quantidade:',
-//                        }),
-//                        $('<div/>', {
-//                            'class': 'col-md-3 col-sm-7',
-//                            html: $('<input/>', {
-//                                'class': 'form-control',
-//                                'type': 'text',
-//                                'placeholder': 'Quantidade utilizada',
-//                                'name': nameId + '[' + n + '].quantidade',
-//                                'id': nameId + n + '.quantidade',
-//                            }),
-//                        }),
-//                        $('<div/>', {
-//                            'class': 'col-md-1 col-sm-1 col-xs-1',
-//                            html: $('<a/>', {
-//                                'href': 'javascript:void(0);',
-//                                'class': 'fa fa-form-control fa-trash delComponenteProduto',
-//                            })
-//                        }),
-//                    ],
-//                }),
-//                $('<div/>', {
-//                    'class': 'form-group',
-//                    html: [
-//                        $('<label/>', {
-//                            'class': 'control-label col-md-2 col-sm-5',
-//                            'for': nameId + n + '.comentario',
-//                            text: 'Anotação:',
-//                        }),
-//                        $('<div/>', {
-//                            'class': 'col-md-9 col-sm-7',
-//                            html: $('<textarea/>', {
-//                                'class': 'form-control',
-//                                'rows': '2',
-//                                'placeholder': 'Anotação extra',
-//                                'name': nameId + '[' + n + '].comentario',
-//                                'id': nameId + n + '.comentario',
-//                            }),
-//                        }),
-//                    ],
-//                }),
-//            ],
-//        }).data('n', n).insertBefore($this);
-//        $focusOn.focus();
-//    });
     // Para aplicar a elementos adicionados dinamicamente também
     $(document).on('click', '.delTelefoneFornecedor, .delEmailFornecedor', function () {
         delItemData($(this));
@@ -261,6 +166,16 @@ $(document).ready(function () {
         decimal: ',',
         thousands: '',
         precision: 2,
+        precisionStay: false,
+        allowZero: true,
+        affixesStay: true,
+    });
+    $('input.number').maskMoney({
+        prefix: '',
+        suffix: '',
+        decimal: '',
+        thousands: '.',
+        precision: 0,
         precisionStay: false,
         allowZero: true,
         affixesStay: true,

@@ -15,14 +15,12 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.bson.types.ObjectId;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,15 +32,25 @@ public class LoginController {
     
     @Layout("layout/blank")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView login() {
+    public ModelAndView login(HttpSession session) {
+        session.removeAttribute(SessionLoginViewModel.SESSION);
         ModelAndView mv = new ModelAndView("login");
         mv.addObject("titulo", "Login");
         mv.addObject("loginVM", new LoginViewModel());
         return mv;
     }
     
+    @RequestMapping(value = "/logoff", method = RequestMethod.GET)
+    public ModelAndView logoff(HttpSession session, final RedirectAttributes redirectAttributes) {
+        session.removeAttribute(SessionLoginViewModel.SESSION);
+        ModelAndView mv = new ModelAndView();
+        redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "Saiu com sucesso"));
+        mv.setViewName("redirect:/login");
+        return mv;
+    }
+    
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public MV doLogin(@ModelAttribute LoginViewModel lvm, HttpServletRequest req, HttpServletResponse resp, final RedirectAttributes redirectAttributes) throws IOException {
+    public MV doLogin(@ModelAttribute LoginViewModel lvm, HttpSession session, final RedirectAttributes redirectAttributes) throws IOException {
         MV mv = new MV();
         
         Usuario usuario = null;
@@ -52,24 +60,23 @@ public class LoginController {
             
             List<Usuario> lstUsuarios = repo.findByLogin(lvm.getLogin());
             Optional<Usuario> optUsuario = lstUsuarios.stream()
-                    .filter(u -> Util.md5(u.getSal() + lvm.getSenha()).equals(u.getSenha()))
+//                    .filter(u -> Util.md5(u.getSal() + lvm.getSenha()).equals(u.getSenha()))
+                    .filter(u -> u.checkSenha(lvm.getSenha()))
                     .findFirst();
             usuario = optUsuario.orElse(null);
         }
-        
+        System.out.println("USUÁRIO: " + usuario);
         if (usuario != null) {
             SessionLoginViewModel slvm = new SessionLoginViewModel();
             slvm.setUsuarioId(usuario.getId());
             slvm.setUsuarioNome(usuario.getNome());
             slvm.setUsuarioLogin(usuario.getLogin());
-            req.getSession().setAttribute(SessionLoginViewModel.SESSION, slvm);
+            session.setAttribute(SessionLoginViewModel.SESSION, slvm);
             
-            mv.setViewName("redirect:/" + Produto.URL_MVC);
-//            resp.sendRedirect(req.getContextPath() + "/");
+            mv.setViewName("redirect:" + Produto.URL_MVC);
         } else {
             redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.ERRO, "Falha no login"));
             mv.setViewName("redirect:/login");
-//            resp.sendRedirect(req.getContextPath() + "/login");
         }
         return mv;
     }

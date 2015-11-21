@@ -136,23 +136,14 @@ public class Produto implements Documento {
     public Float getCustoTotal() {
         return Produto.getCustoTotal(this);
     }
-    
     public static float getCustoTotal(Produto produto) {
-        float valor = 0;
-        if (produto != null && produto.getProdutoComponentes() != null) {
-            for (ProdutoComponente pc : produto.getProdutoComponentes()) {
-                if (pc != null) {
-                    Componente c = pc.getComponente();
-                    if (c != null) {
-                        valor += c.getValorUnitario() * pc.getQuantidade();
-                    }
-                }
-            }
-        }
-        return valor;
+        ProdutoViewModel pvm = new ProdutoViewModel();
+        produto.fill(pvm);
+        return Produto.getCustoTotal(pvm);
     }
     public static float getCustoTotal(ProdutoViewModel produto) {
         float valor = getCustoTotalComponentes(produto) 
+                + getCustoTotalSetores(produto)
                 + getCustoTotalMaquinas(produto);
         return valor;
     }
@@ -201,7 +192,7 @@ public class Produto implements Documento {
     
     public void calculaRateioCustosSetores() {
         Empresa empresa = Util.getEmpresa();
-        if (empresa.getSetores() != null) {
+        if (empresa.getSetores() != null && this.getProdutoSetores() != null) {
             for (ProdutoSetor produtoSetor : this.getProdutoSetores()) {
                 Setor setor = produtoSetor.getSetor();
                 if (setor == null) 
@@ -215,7 +206,7 @@ public class Produto implements Documento {
                 );
 
                 // Custo médio do salário
-                float rateioCustoMinutoSetor = (setor.getSalarioMedio() / minutosTrabalhoMensal);
+                float rateioCustoMinutoSetor = (setor.getSalarioMedio() * setor.getFuncionarios() / minutosTrabalhoMensal);
                 if (empresa.getCustos() != null) {
                     // Faz o rateio dos custos e soma junto
                     for (Custo custo : empresa.getCustos()) {

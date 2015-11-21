@@ -23,12 +23,17 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" th:href="@{/}">Custos</a> 
+                    <a class="navbar-brand" th:href="@{/}">CMV</a> 
                 </div>
-                <div style="color: white;
-                    padding: 15px 50px 5px 50px;
-                    float: right;
-                    font-size: 16px;"> Bem vindo. <span th:text="(${sessionLogin} ? ${sessionLogin.usuarioNome} : 'Visitante')"></span> &nbsp; <a th:href="@{'/login'}" class="btn btn-danger square-btn-adjust">Sair</a> </div>
+                <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
+                    Bem vindo, <span th:text="(${session.sessionLogin} ? ${session.sessionLogin.usuarioNome} : 'Visitante')"></span> 
+                    &nbsp; 
+                    <a th:href="@{${T(com.br.squemasports.model.Usuario).URL_MVC} + '/password'}" class="btn btn-default square-btn-adjust">
+                        <i class="fa fa-key"></i> Trocar senha
+                    </a>
+                    &nbsp; 
+                    <a th:href="@{'/logoff'}" class="btn btn-danger square-btn-adjust">Sair</a>
+                </div>
             </nav>
             <nav class="navbar-default navbar-side" role="navigation">
                 <div class="sidebar-collapse">
@@ -109,7 +114,7 @@
                         </div>
                     </div>
                     <hr />
-                    <small class="pull-right visible-print-block">Gerado pelo Sistema de Custos da Squema Sports</small>
+                    <small class="pull-right visible-print-block">Gerado pelo sistema de CMV da Squema Sports</small>
                 </div>
             </div>
         </div>

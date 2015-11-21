@@ -111,15 +111,7 @@ public class ComponenteController {
             vm.fill(documento);
             if (id != null && ObjectId.isValid(id)) {
                 repo.save(documento);
-                
-                // Atualiza os documentos relacionados
-                MongoOperations mongoOperations = Util.getMongoOperations();
-                documento.setHistoricoValores(null);
-                mongoOperations.updateMulti(
-                        query(where("produtoComponentes.componente.id").is(new ObjectId(id))), 
-                        update("produtoComponentes.$.componente", documento), 
-                        Produto.class);
-                
+                updateRelated(id, documento);
             } else {
                 repo.insert(documento);
             }
@@ -133,7 +125,18 @@ public class ComponenteController {
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("id") String id, final RedirectAttributes redirectAttributes) {
         repo.delete(id);
+        updateRelated(id, null);
         redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "Registro excluído"));
         return "redirect:" + Componente.URL_MVC;
+    }
+    
+    public void updateRelated(String id, Componente documento) {
+        MongoOperations mongoOperations = Util.getMongoOperations();
+        documento.setHistoricoValores(null);
+        mongoOperations.updateMulti(
+                query(where("produtoComponentes.componente.id").is(new ObjectId(id))), 
+                update("produtoComponentes.$.componente", documento), 
+                Produto.class);
+        
     }
 }

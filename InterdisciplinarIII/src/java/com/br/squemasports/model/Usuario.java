@@ -18,7 +18,6 @@ public class Usuario implements Documento {
     private String login;
     private @JsonIgnore String senha;
     private @JsonIgnore String sal;
-    private boolean status;
 
     @Override
     public String getUrlMvc() { return URL_MVC; }
@@ -64,21 +63,16 @@ public class Usuario implements Documento {
         return sal;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
     public void fill(UsuarioViewModel vm) {
         vm.setId(id);
         vm.setNome(nome);
         vm.setLogin(login);
         vm.setSenha(senha);
         vm.setConfirmaSenha(senha);
-        vm.setStatus(status);
+    }
+    
+    public boolean checkSenha(String senha) {
+        return (Util.md5(this.getSal() + senha).equals(this.getSenha()));
     }
     
     @Override

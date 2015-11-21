@@ -63,13 +63,7 @@ public class CategoriaProdutoController {
             documento.setNome(Util.getString(mvm.getNome()));
             if (id != null && ObjectId.isValid(id)) {
                 repo.save(documento);
-                
-                // Atualiza os documentos relacionados
-                MongoOperations mongoOperations = Util.getMongoOperations();
-                mongoOperations.updateMulti(
-                        query(where("categoria.id").is(new ObjectId(id))), 
-                        update("categoria", documento), 
-                        Produto.class);
+                updateRelated(id, documento);
             } else {
                 repo.insert(documento);
             }
@@ -83,7 +77,16 @@ public class CategoriaProdutoController {
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("id") String id, final RedirectAttributes redirectAttributes) {
         repo.delete(id);
+        updateRelated(id, null);
         redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "Registro excluído"));
         return "redirect:" + CategoriaProduto.URL_MVC;
+    }
+    
+    public void updateRelated(String id, CategoriaProduto documento) {
+        MongoOperations mongoOperations = Util.getMongoOperations();
+        mongoOperations.updateMulti(
+                query(where("categoria.id").is(new ObjectId(id))), 
+                update("categoria", documento), 
+                Produto.class);
     }
 }

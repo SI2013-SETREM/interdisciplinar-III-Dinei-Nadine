@@ -20,13 +20,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="taxaInadimplencia" class="control-label col-md-2 col-sm-3">Taxa Inadimplência</label>
+                    <label for="taxaInadimplencia" class="control-label col-md-2 col-sm-3">Taxa Inadimplência:</label>
                     <div class="col-md-6 col-sm-9">
                         <input th:field="*{taxaInadimplencia}" class="form-control percent" type="text" placeholder="Taxa padrão de inadimplência" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="taxaImpostos" class="control-label col-md-2 col-sm-3">Taxa de Impostos</label>
+                    <label for="taxaImpostos" class="control-label col-md-2 col-sm-3">Taxa de Impostos:</label>
                     <div class="col-md-6 col-sm-9">
                         <input th:field="*{taxaImpostos}" class="form-control percent" type="text" placeholder="Taxa padrão de impostos" />
                     </div>
@@ -51,7 +51,7 @@
                                 Nº de funcionários:
                             </label>
                             <div class="col-md-7 col-sm-7">
-                                <input th:field="*{setores[__${setorStat.index}__].funcionarios}" class="form-control" type="number" placeholder="Número de funcionários" />
+                                <input th:field="*{setores[__${setorStat.index}__].funcionarios}" class="form-control number" type="text" placeholder="Número de funcionários" />
                             </div>
                         </div>
                         <div class="form-group">

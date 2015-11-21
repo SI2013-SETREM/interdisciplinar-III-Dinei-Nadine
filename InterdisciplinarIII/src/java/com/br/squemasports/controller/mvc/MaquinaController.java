@@ -65,13 +65,7 @@ public class MaquinaController {
             mvm.fill(documento);
             if (id != null && ObjectId.isValid(id)) {
                 repo.save(documento);
-                
-                // Atualiza os documentos relacionados
-                MongoOperations mongoOperations = Util.getMongoOperations();
-                mongoOperations.updateMulti(
-                        query(where("produtoMaquinas.maquina.id").is(new ObjectId(id))), 
-                        update("produtoMaquinas.$.maquina", documento), 
-                        Produto.class);
+                updateRelated(id, documento);
             } else {
                 repo.insert(documento);
             }
@@ -85,7 +79,16 @@ public class MaquinaController {
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("id") String id, final RedirectAttributes redirectAttributes) {
         repo.delete(id);
+        updateRelated(id, null);
         redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "Registro excluído"));
         return "redirect:" + Maquina.URL_MVC;
+    }
+    
+    public void updateRelated(String id, Maquina documento) {
+        MongoOperations mongoOperations = Util.getMongoOperations();
+        mongoOperations.updateMulti(
+                query(where("produtoMaquinas.maquina.id").is(new ObjectId(id))), 
+                update("produtoMaquinas.$.maquina", documento), 
+                Produto.class);
     }
 }

@@ -66,17 +66,7 @@ public class FornecedorController {
             fvm.fill(documento);
             if (id != null && ObjectId.isValid(id)) {
                 repo.save(documento);
-                
-                // Atualiza os documentos relacionados
-                MongoOperations mongoOperations = Util.getMongoOperations();
-                mongoOperations.updateMulti(
-                        query(where("fornecedor.id").is(new ObjectId(id))), 
-                        update("fornecedor", documento), 
-                        Componente.class);
-                mongoOperations.updateMulti(
-                        query(where("produtoComponentes.componente.fornecedor.id").is(new ObjectId(id))), 
-                        update("produtoComponentes.$.componente.fornecedor", documento), 
-                        Produto.class);
+                updateRelated(id, documento);
             } else {
                 repo.insert(documento);
             }
@@ -90,7 +80,20 @@ public class FornecedorController {
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("id") String id, final RedirectAttributes redirectAttributes) {
         repo.delete(id);
+        updateRelated(id, null);
         redirectAttributes.addFlashAttribute(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.SUCESSO, "Registro excluído"));
         return "redirect:" + Fornecedor.URL_MVC;
+    }
+    
+    public void updateRelated(String id, Fornecedor documento) {
+        MongoOperations mongoOperations = Util.getMongoOperations();
+        mongoOperations.updateMulti(
+                query(where("fornecedor.id").is(new ObjectId(id))), 
+                update("fornecedor", documento), 
+                Componente.class);
+        mongoOperations.updateMulti(
+                query(where("produtoComponentes.componente.fornecedor.id").is(new ObjectId(id))), 
+                update("produtoComponentes.$.componente.fornecedor", documento), 
+                Produto.class);
     }
 }

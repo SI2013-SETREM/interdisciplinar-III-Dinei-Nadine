@@ -10,7 +10,7 @@ public class Setor {
     private String nome;
     @NumberFormat(style = NumberFormat.Style.NUMBER)
     private int funcionarios;
-    @NumberFormat(style = NumberFormat.Style.NUMBER, pattern = "##.00")
+    @NumberFormat(style = NumberFormat.Style.NUMBER, pattern = "#0.00")
     private float horasSemana;
     @NumberFormat(style = NumberFormat.Style.PERCENT)
     private float eficienciaProdutiva;
