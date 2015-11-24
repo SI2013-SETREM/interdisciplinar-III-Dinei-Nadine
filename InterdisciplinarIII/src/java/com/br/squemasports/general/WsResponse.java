@@ -2,41 +2,40 @@
 package com.br.squemasports.general;
 
 import com.br.squemasports.model.Documento;
-import org.springframework.http.HttpStatus;
 
 public class WsResponse<T extends Documento> {
     
-    private HttpStatus httpStatus;
+    private int status;
     private String mensagem;
     private T documento;
     
     public WsResponse(T document) {
         this.documento = document;
-        this.httpStatus = HttpStatus.OK;
+        this.status = 1;
     }
     public WsResponse(T document, String mensagem) {
         this.documento = document;
-        this.httpStatus = HttpStatus.BAD_REQUEST;
+        this.status = 0;
         this.mensagem = mensagem;
     }
-    public WsResponse(T documento, HttpStatus httpStatus) {
+    public WsResponse(T documento, int status) {
         this.documento = documento;
-        this.httpStatus = httpStatus;
+        this.status = status;
     }
-    public WsResponse(T documento, HttpStatus httpStatus, String mensagem) {
+    public WsResponse(T documento, int status, String mensagem) {
         this.documento = documento;
-        this.httpStatus = httpStatus;
+        this.status = status;
         this.mensagem = mensagem;
     }
 
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
+    public int getStatus() {
+        return status;
     }
 
-    public void setHttpStatus(HttpStatus httpStatus) {
-        this.httpStatus = httpStatus;
+    public void setStatus(int status) {
+        this.status = status;
     }
-
+    
     public String getMensagem() {
         return mensagem;
     }

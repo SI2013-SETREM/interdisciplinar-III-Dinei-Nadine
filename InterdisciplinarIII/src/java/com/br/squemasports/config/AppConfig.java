@@ -52,13 +52,15 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
             @Override
             public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-                if (!"/login".equals(request.getRequestURI()) && !"/login/".equals(request.getRequestURI())) {
+                if (!"/login".equals(request.getRequestURI()) && !"/login/".equals(request.getRequestURI()) && !request.getRequestURI().contains("/ws/")) {
                     if (request.getSession().getAttribute(SessionLoginViewModel.SESSION) == null) {
                         
-                        FlashMap flashMap = new FlashMap();
-                        flashMap.put(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.ALERTA, "Por favor, faça login para ver a página"));
-                        FlashMapManager flashMapManager = RequestContextUtils.getFlashMapManager(request);
-                        flashMapManager.saveOutputFlashMap(flashMap, request, response);
+                        if (!"/".equals(request.getRequestURI())) {
+                            FlashMap flashMap = new FlashMap();
+                            flashMap.put(MensagemMVC.ATTRIBUTE_NAME, new MensagemMVC(MensagemMVC.GRAVIDADE.ALERTA, "Por favor, faça login para ver a página"));
+                            FlashMapManager flashMapManager = RequestContextUtils.getFlashMapManager(request);
+                            flashMapManager.saveOutputFlashMap(flashMap, request, response);
+                        }
                         
                         response.sendRedirect("/login");
                         return false;

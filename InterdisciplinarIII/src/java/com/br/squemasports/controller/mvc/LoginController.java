@@ -65,7 +65,6 @@ public class LoginController {
                     .findFirst();
             usuario = optUsuario.orElse(null);
         }
-        System.out.println("USUÁRIO: " + usuario);
         if (usuario != null) {
             SessionLoginViewModel slvm = new SessionLoginViewModel();
             slvm.setUsuarioId(usuario.getId());
