@@ -192,7 +192,7 @@ public class Produto implements Documento {
     
     public void calculaRateioCustosSetores() {
         Empresa empresa = Util.getEmpresa();
-        if (empresa.getSetores() != null && this.getProdutoSetores() != null) {
+        if (empresa != null && empresa.getSetores() != null && this.getProdutoSetores() != null) {
             for (ProdutoSetor produtoSetor : this.getProdutoSetores()) {
                 Setor setor = produtoSetor.getSetor();
                 if (setor == null) 

@@ -211,7 +211,7 @@ public class ProdutoController {
     private void montaSetores(ProdutoViewModel pvm) {
         List<Setor> setores = new ArrayList<>();
         Empresa empresa = Util.getEmpresa();
-        if (empresa != null) {
+        if (empresa != null && empresa.getSetores() != null) {
             setores = Arrays.asList(empresa.getSetores());
         }
         // Mostra todos os setores do sistema

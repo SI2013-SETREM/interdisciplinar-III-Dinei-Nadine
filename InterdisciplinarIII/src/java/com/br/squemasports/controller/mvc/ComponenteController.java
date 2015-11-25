@@ -132,7 +132,8 @@ public class ComponenteController {
     
     public void updateRelated(String id, Componente documento) {
         MongoOperations mongoOperations = Util.getMongoOperations();
-        documento.setHistoricoValores(null);
+        if (documento != null) 
+            documento.setHistoricoValores(null);
         mongoOperations.updateMulti(
                 query(where("produtoComponentes.componente.id").is(new ObjectId(id))), 
                 update("produtoComponentes.$.componente", documento), 

@@ -5,7 +5,6 @@
         <div th:fragment="content">
             <script type="text/javascript" th:inline="javascript">
                 var documento = /*[[${documento}]]*/ null;
-                console.log(documento);
                 var componentes = /*[[${componentes}]]*/ null;
                 var categorias = /*[[${categorias}]]*/ null;
             </script>
@@ -51,7 +50,7 @@
                                 Quantidade:
                             </label>
                             <div class="col-md-3 col-sm-7">
-                                <input th:field="*{produtoComponentes[__${componenteStat.index}__].quantidade}" class="form-control number" type="text" placeholder="Quantidade utilizada" />
+                                <input th:field="*{produtoComponentes[__${componenteStat.index}__].quantidade}" class="form-control float" type="text" placeholder="Quantidade utilizada" />
                             </div>
                             <div class="col-md-1 col-sm-1 col-xs-1">
                                 <a href="javascript:void(0);" class="fa fa-form-control fa-trash delComponenteProduto"></a>

@@ -7,6 +7,7 @@ import com.br.squemasports.model.Usuario;
 import com.br.squemasports.viewmodel.LoginViewModel;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,8 @@ public class WsLoginController {
     
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public WsResponse<Usuario> login(@RequestBody LoginViewModel lvm) {
+    public WsResponse<Usuario> login(@RequestBody LoginViewModel lvm, HttpServletResponse response) {
+        response.addHeader("Content-type", "application/json;charset=UTF-8");
         Usuario usuario = null;
         if (lvm != null) {
             List<Usuario> lstUsuarios = repo.findByLogin(lvm.getLogin());
