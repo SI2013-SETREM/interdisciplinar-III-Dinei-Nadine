@@ -52,7 +52,14 @@ public class ProdutoController {
     public MV list() {
         MV mv = new MV(Produto.class, "listProduto");
         mv.addObject("titulo", "Produtos");
-        mv.addObject("lista", repo.findAll());
+        List<ProdutoViewModel> produtos = new ArrayList<>();
+        for (Produto p : repo.findAll()) {
+            ProdutoViewModel pvm = new ProdutoViewModel();
+            p.calculaRateioCustosSetores();
+            p.fill(pvm);
+            produtos.add(pvm);
+        }
+        mv.addObject("lista", produtos);
         mv.addObject("allowPrinting", true);
         return mv;
     }
@@ -194,10 +201,16 @@ public class ProdutoController {
         }
         List<ProdutoMaquinaViewModel> produtoMaquinas = new ArrayList<>(produtoMaquinasProduto);
         for (Maquina m : maquinas) {
+            boolean novo = true;
+            for (ProdutoMaquinaViewModel pmvm : produtoMaquinasProduto) {
+                if (pmvm.getMaquinaId().equals(m.getId())) {
+                    pmvm.setMaquina(m);
+                    novo = false;
+                    break;
+                }
+            }
             // Se a máquina ainda não está vinculada ao produto
-            if (produtoMaquinasProduto.stream()
-                    .noneMatch(x -> x.getMaquina() != null && x.getMaquina().getId().equals(m.getId()))) {
-                
+            if (novo) {
                 ProdutoMaquinaViewModel pm = new ProdutoMaquinaViewModel();
                 pm.setMaquina(m);
                 pm.setMaquinaId(m.getId());
@@ -222,15 +235,21 @@ public class ProdutoController {
         }
         List<ProdutoSetorViewModel> produtoSetores = new ArrayList<>(produtoSetoresProduto);
         for (Setor s : setores) {
-            // Se a máquina ainda não está vinculada ao produto
-            if (produtoSetoresProduto.stream()
-                    .noneMatch(x -> x.getSetor()!= null && x.getSetor().getId().equals(s.getId()))) {
-                
-                ProdutoSetorViewModel pm = new ProdutoSetorViewModel();
-                pm.setSetor(s);
-                pm.setSetorId(s.getId());
-                pm.setMinutos((float) 0);
-                produtoSetores.add(pm);
+            boolean novo = true;
+            for (ProdutoSetorViewModel psvm : produtoSetoresProduto) {
+                if (psvm.getSetorId().equals(s.getId())) {
+                    psvm.setSetor(s);
+                    novo = false;
+                    break;
+                }
+            }
+            // Se o setor ainda não está vinculada ao produto
+            if (novo) {
+                ProdutoSetorViewModel ps = new ProdutoSetorViewModel();
+                ps.setSetor(s);
+                ps.setSetorId(s.getId());
+                ps.setMinutos(new Float(0));
+                produtoSetores.add(ps);
             }
         }
         pvm.setProdutoSetores(produtoSetores);

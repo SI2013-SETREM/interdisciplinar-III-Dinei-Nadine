@@ -40,5 +40,12 @@ public class Maquina implements Documento {
     public void setCustoMinuto(float custoMinuto) {
         this.custoMinuto = custoMinuto;
     }
+
+    @Override
+    public String toString() {
+        return fabricanteModelo;
+    }
+    
+    
     
 }

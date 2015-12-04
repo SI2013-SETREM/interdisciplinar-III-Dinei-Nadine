@@ -37,7 +37,8 @@
                         <td th:text="*{referencia}"></td>
                         <td th:text="*{nome}"></td>
                         <td th:text="*{(categoria != null) ? (categoria.nome) : ''}"></td>
-                        <td class="text-right" th:text="*{{getCustoTotal()}}"></td>
+                        <!--<td class="text-right" th:text="*{{getCustoTotal()}}"></td>-->
+                        <td class="text-right" th:text="${{T(com.br.squemasports.model.Produto).getCustoTotal(documento)}}"></td>
                         <td class="col-button text-center">
                             <a th:href="@{${URL_MVC} + '/' + *{id}}">
                                 <i class="fa fa-pencil"></i> Editar

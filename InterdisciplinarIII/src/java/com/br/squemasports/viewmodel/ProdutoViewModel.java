@@ -19,6 +19,7 @@ public class ProdutoViewModel {
     private List<ProdutoComponenteViewModel> produtoComponentes;
     private List<ProdutoMaquinaViewModel> produtoMaquinas;
     private List<ProdutoSetorViewModel> produtoSetores;
+    private float custo;
 
     public String getId() {
         return id;
@@ -82,6 +83,14 @@ public class ProdutoViewModel {
 
     public void setProdutoSetores(List<ProdutoSetorViewModel> produtoSetores) {
         this.produtoSetores = produtoSetores;
+    }
+
+    public float getCusto() {
+        return custo;
+    }
+
+    public void setCusto(float custo) {
+        this.custo = custo;
     }
     
     public void fill(Produto produto) {

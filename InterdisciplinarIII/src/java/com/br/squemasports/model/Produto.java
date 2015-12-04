@@ -131,6 +131,7 @@ public class Produto implements Documento {
         } else {
             pvm.setProdutoSetores(null);
         }
+        pvm.setCusto(getCustoTotal(pvm));
     }
     
     public Float getCustoTotal() {
@@ -226,7 +227,7 @@ public class Produto implements Documento {
 
     @Override
     public String toString() {
-        return ((this.referencia != null) ? this.referencia + " - " : "") + this.nome;
+        return ((this.referencia != null && !"".equals(this.referencia)) ? this.referencia + " - " : "") + this.nome;
     }
     
 }

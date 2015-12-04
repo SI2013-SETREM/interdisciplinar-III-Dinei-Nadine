@@ -90,6 +90,8 @@ public class EmpresaViewModel {
             documento.setSetores(null);
         }
         if (custos != null) {
+            custos.stream()
+                    .forEach(x -> x.setNome(Util.getString(x.getNome())));
             documento.setCustos(custos.toArray(new Custo[0]));
         } else {
             documento.setCustos(null);

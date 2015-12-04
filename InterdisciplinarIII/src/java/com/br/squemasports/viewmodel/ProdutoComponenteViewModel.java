@@ -10,7 +10,7 @@ public class ProdutoComponenteViewModel {
     
     private String componenteId;
     private Componente componente;
-    @NumberFormat(style = NumberFormat.Style.NUMBER)
+    @NumberFormat(style = NumberFormat.Style.NUMBER, pattern = "#0.00")
     private Float quantidade;
     private String comentario;
 
